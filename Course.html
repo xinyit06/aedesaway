@@ -1,0 +1,252 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mosquito Buster Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F2F6F3;--ink:#12302F;--mut:#58706C;--card:#fff;--line:#D3E0DA;--brand:#0E5A57;--on:#fff;--water:#58B8AE;--ok:#2E7D5B;--no:#B83A2E;--okbg:#E2F2EA;--nobg:#F8E4E1;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0C1B1B;--ink:#E6F0EC;--mut:#93A9A5;--card:#132726;--line:#234240;--brand:#5CC8BC;--on:#08201F;--water:#2A8A82;--ok:#6FD3A0;--no:#F08A7E;--okbg:#14382B;--nobg:#401E1A}}
+:root[data-theme="dark"]{--bg:#0C1B1B;--ink:#E6F0EC;--mut:#93A9A5;--card:#132726;--line:#234240;--brand:#5CC8BC;--on:#08201F;--water:#2A8A82;--ok:#6FD3A0;--no:#F08A7E;--okbg:#14382B;--nobg:#401E1A}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 "Nunito Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque","Trebuchet MS",sans-serif;line-height:1.15;margin:0 0 .5em}
+h1{font-size:2rem;font-weight:800}h2{font-size:1.25rem}h3{font-size:1.1rem}
+main{max-width:720px;margin:0 auto;padding:20px 18px 48px}
+.mut,small{color:var(--mut)}
+.hero{display:flex;gap:20px;align-items:center;justify-content:space-between;margin-bottom:24px}
+.jarw{text-align:center;flex:none;width:96px;line-height:1.2}
+.jar{width:72px;height:110px;margin:0 auto 6px;border:3px solid var(--ink);border-top:0;border-radius:0 0 18px 18px;position:relative;overflow:hidden}
+.jar i{position:absolute;left:0;right:0;bottom:0;background:var(--water);transition:height .9s}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:0 0 12px}
+.card ul{padding-left:20px;margin:.4em 0}.card li{margin:.4em 0}
+.win{border:2px solid var(--ok);background:var(--okbg)}
+.badge{background:var(--ok);color:var(--bg);border-radius:20px;padding:2px 12px;font-size:.85rem;font-weight:700}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+button{font:inherit;cursor:pointer}
+.btn{background:var(--brand);color:var(--on);border:0;border-radius:10px;padding:12px 18px;font-weight:700;min-height:44px}
+.btn.ghost{background:transparent;color:var(--brand);border:2px solid var(--brand)}
+.btn:disabled,.o:disabled{cursor:default}
+.o{display:block;width:100%;text-align:left;background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:10px;padding:12px 14px;margin:8px 0;min-height:44px}
+.o.ok{border-color:var(--ok);background:var(--okbg)}.o.no{border-color:var(--no);background:var(--nobg)}
+.fin:disabled{opacity:.5}
+#why{padding:10px 12px;border-radius:8px;background:var(--card);border-left:4px solid var(--brand);margin:8px 0 14px}
+.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden}.bar i{display:block;height:100%;background:var(--brand)}
+.back{background:none;border:0;color:var(--brand);font-weight:700;padding:8px 0;margin-bottom:8px}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.big{background:var(--card);border:2px solid var(--brand);border-radius:22px;padding:14px;margin-bottom:16px}.big .card{background:var(--bg);cursor:pointer;margin:0 0 12px}.big .card:last-child{margin-bottom:0}.big .card:active{border-color:var(--brand)}
+main.wide{max-width:1100px}.big{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}.big .card{margin:0}
+.fig{margin:0 0 14px;padding:12px;background:var(--card);border:1px solid var(--line);border-radius:14px}.fig svg{width:100%;height:auto;display:block}.fig figcaption{font-size:.9rem;color:var(--mut);margin-top:6px}svg text{fill:currentColor;font:11px "Nunito Sans",sans-serif}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.sp{font:inherit;cursor:pointer;background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:10px;padding:10px;min-height:44px;text-align:left}.sp.seen{border-color:var(--ok);background:var(--okbg)}.tip{padding:10px 12px;border-radius:8px;background:var(--bg);border-left:4px solid var(--brand);margin:10px 0;min-height:3.4em}input[type=range]{width:100%;accent-color:var(--brand)}.ck{display:block;padding:10px 4px}.ck input{width:20px;height:20px;margin-right:10px;vertical-align:middle;accent-color:var(--brand)}.wd{margin-top:16px}.tabs{display:flex;gap:8px;margin-bottom:8px}.tabs .sp{flex:1;text-align:center}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style><style id="aedesaway-course-academy">
+:root{--bg:#F8FCFA;--ink:#0B3B3A;--mut:#4F6866;--card:#FFFFFF;--line:#DCEBE8;--brand:#0F6F69;--on:#FFFFFF;--water:#169C90}
+body{background:#F8FCFA!important;color:#0B3B3A;font-family:"Nunito Sans",system-ui,sans-serif!important}
+html{scroll-padding-top:36px}
+main#app{max-width:760px;margin:36px auto 24px;padding:28px 24px 32px;border-radius:28px;background:#E8F5F1;min-width:0}
+main#app.wide{max-width:1140px}
+#app>.hero{position:relative;isolation:isolate;align-items:center;margin-bottom:28px;padding:10px 0 20px;gap:18px;border-bottom:1px solid #0F6F691A}
+#app>.hero::before{content:"";display:block;flex:0 0 64px;width:64px;height:64px;background:center/contain no-repeat url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2220%22%20fill%3D%22%23FFFFFF%22%2F%3E%3Cpath%20d%3D%22m10%2025%2022-11%2022%2011-22%2011Z%22%20fill%3D%22%230F6F69%22%2F%3E%3Cpath%20d%3D%22M19%2032v12q13%2010%2026%200V32M54%2025v18%22%20fill%3D%22none%22%20stroke%3D%22%23169C90%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2251%22%20cy%3D%2212%22%20r%3D%225%22%20fill%3D%22%23F4C95D%22%2F%3E%3C%2Fsvg%3E");box-shadow:0 6px 22px #0F6F690D;border-radius:20px}
+#app>.hero>div{flex:1;min-width:0}
+#app>.hero::after{content:"";position:absolute;right:12px;top:0;width:84px;height:84px;border-radius:50% 50% 30% 60%;background:#169C900C;border-top:5px solid #F4C95D;z-index:-1;transform:rotate(-20deg);pointer-events:none}
+#app>.hero h1{font-size:clamp(2rem,4vw,2.75rem);color:#0F6F69;margin:0 0 10px;letter-spacing:-.035em}
+#app>.hero p{margin:0;max-width:650px;line-height:1.65}
+#app>.big{padding:0;border:0;background:transparent;gap:20px;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch}
+#app>.big>.card{display:flex;flex-direction:column;position:relative;overflow:hidden;background:#FFFFFF;border:1px solid #DCEBE8;border-radius:22px;padding:22px;margin:0;box-shadow:0 8px 24px #0B3B3A0A;transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease}
+#app>.big>.card::before{content:"";display:block;height:110px;flex:none;margin:-4px -4px 18px;border-radius:16px;background-color:#F8FCFA;background-position:center;background-size:auto 106px;background-repeat:no-repeat}
+#app>.big>.card:nth-child(1)::before{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20160%20100%22%3E%3Ccircle%20cx%3D%2280%22%20cy%3D%2250%22%20r%3D%2240%22%20fill%3D%22%23E8F5F1%22%2F%3E%3Ccircle%20cx%3D%22126%22%20cy%3D%2223%22%20r%3D%229%22%20fill%3D%22%23F4C95D%22%2F%3E%3Cg%20fill%3D%22white%22%20stroke%3D%22%230F6F69%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%3E%3Cellipse%20cx%3D%2260%22%20cy%3D%2239%22%20rx%3D%2222%22%20ry%3D%229%22%20transform%3D%22rotate(25%2060%2039)%22%2F%3E%3Cellipse%20cx%3D%2299%22%20cy%3D%2239%22%20rx%3D%2222%22%20ry%3D%229%22%20transform%3D%22rotate(-25%2099%2039)%22%2F%3E%3Cpath%20d%3D%22m79%2046-25%2017m25-7L58%2080m24-34%2024%2017M82%2056l19%2024M80%2032l7-17%22%2F%3E%3Cpath%20d%3D%22M80%2040v30%22%20stroke-width%3D%229%22%2F%3E%3Ccircle%20cx%3D%2280%22%20cy%3D%2231%22%20r%3D%227%22%20fill%3D%22%230F6F69%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")}
+#app>.big>.card:nth-child(2)::before{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20160%20100%22%3E%3Ccircle%20cx%3D%2280%22%20cy%3D%2250%22%20r%3D%2240%22%20fill%3D%22%23E8F5F1%22%2F%3E%3Ccircle%20cx%3D%22125%22%20cy%3D%2223%22%20r%3D%229%22%20fill%3D%22%23F4C95D%22%2F%3E%3Cpath%20d%3D%22M52%2030h56l-7%2055H59Z%22%20fill%3D%22white%22%20stroke%3D%22%230F6F69%22%20stroke-width%3D%223%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cpath%20d%3D%22M57%2054q12-6%2023%200t23%200l-4%2028H61Z%22%20fill%3D%22%23169C90%22%20opacity%3D%22.6%22%2F%3E%3Cpath%20d%3D%22M61%2030v-5q19-26%2038%200v5%22%20fill%3D%22none%22%20stroke%3D%22%230F6F69%22%20stroke-width%3D%223%22%2F%3E%3Cpath%20d%3D%22M80%2043s-7%209-7%2013a7%207%200%200%200%2014%200c0-4-7-13-7-13%22%20fill%3D%22%23169C90%22%2F%3E%3Cpath%20d%3D%22M65%2068q4-5%208%200t8%200m4%208q4-5%208%200%22%20fill%3D%22none%22%20stroke%3D%22%230F6F69%22%20stroke-width%3D%222%22%2F%3E%3C%2Fsvg%3E")}
+#app>.big>.card:nth-child(3)::before{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20160%20100%22%3E%3Ccircle%20cx%3D%2280%22%20cy%3D%2250%22%20r%3D%2240%22%20fill%3D%22%23E8F5F1%22%2F%3E%3Ccircle%20cx%3D%22125%22%20cy%3D%2223%22%20r%3D%229%22%20fill%3D%22%23F4C95D%22%2F%3E%3Cpath%20d%3D%22m80%2015%2028%2011v24c0%2018-15%2029-28%2037-13-8-28-19-28-37V26Z%22%20fill%3D%22white%22%20stroke%3D%22%230F6F69%22%20stroke-width%3D%223%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cpath%20d%3D%22m65%2049%2011%2011%2021-23%22%20fill%3D%22none%22%20stroke%3D%22%23169C90%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cpath%20d%3D%22m119%2057%203%207%207%203-7%203-3%207-3-7-7-3%207-3Z%22%20fill%3D%22%23F4C95D%22%2F%3E%3C%2Fsvg%3E")}
+#app>.big>.card>.row:first-child{align-items:flex-start;flex-wrap:wrap;gap:8px}
+#app>.big>.card h2{font-size:1.25rem;line-height:1.35;color:#0F6F69;margin:0}
+#app>.big>.card>p{font-size:.95rem;line-height:1.65;color:#4F6866;margin:14px 0 22px;flex:1}
+#app>.big>.card>.row:last-child{align-items:flex-end;gap:10px}
+#app>.big>.card>.row:last-child>span{display:grid;place-items:center;flex:none;width:32px;height:32px;border-radius:50%;background:#E8F5F1;color:#0F6F69;font-size:26px;transition:transform .24s ease}
+#app .bar{height:9px;background:#DCEBE8;border-radius:99px}
+#app .bar i{background:linear-gradient(90deg,#0F6F69,#169C90);border-radius:inherit;transition:width .65s ease;transform-origin:left;animation:academy-progress .65s ease-out both}
+#app>.btn.ghost{margin-top:10px;min-height:44px;padding:10px 18px;border:1px solid #0F6F6940;background:#FFFFFF;color:#0F6F69;border-radius:12px;box-shadow:0 3px 10px #0B3B3A05;transition:background .2s,box-shadow .2s}
+#app>.btn.ghost:hover{background:#F8FCFA;box-shadow:0 5px 16px #0B3B3A0D}
+@media(hover:hover){#app>.big>.card:hover{transform:translateY(-6px);border-color:#169C9080;box-shadow:0 16px 32px #0F6F691A}#app>.big>.card:hover>.row:last-child>span{transform:translateX(4px)}}
+#app>.big>.card:focus-visible{outline:3px solid #169C90;outline-offset:4px;box-shadow:0 12px 28px #0F6F691A}
+@keyframes academy-progress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media(max-width:900px){main#app{margin:36px 20px 24px}#app>.big{gap:14px}#app>.big>.card{padding:18px}}
+@media(max-width:720px){main#app{margin:32px 14px 20px;padding:24px 18px;border-radius:22px}#app>.big{grid-template-columns:1fr;gap:16px}#app>.big>.card{padding:20px}#app>.big>.card::before{height:100px;background-size:auto 100px}#app>.hero{gap:12px;padding-top:0;margin-bottom:22px}#app>.hero::before{flex-basis:48px;width:48px;height:48px;align-self:flex-start}#app>.hero::after{width:60px;height:60px;right:0}#app>.hero p{font-size:.95rem}}
+@media(prefers-reduced-motion:reduce){#app *,#app *::before,#app *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style><style id="aedesaway-readable-theme">
+:root{--aa-progress:#0F6F69;--aa-track:#DCEBE8;--aa-bg:#F8FCFA;--aa-surface:#FFFFFF;--aa-soft:#E8F5F1;--aa-text:#0B3B3A;--aa-muted:#4F6866;--aa-accent:#0F6F69;--aa-border:#63877F;--aa-danger:#A51D27;--aa-warnbg:#FFF3D0;--aa-warntext:#513B00;--aa-okbg:#E2F2EA;--aa-oktext:#18593B;--aa-nobg:#FBE7E9;--aa-notext:#911C28;color-scheme:light;--bg:var(--aa-bg)!important;--sf:var(--aa-surface)!important;--card:var(--aa-surface)!important;--c:var(--aa-surface)!important;--ink:var(--aa-text)!important;--t:var(--aa-text)!important;--mut:var(--aa-muted)!important;--muted:var(--aa-muted)!important;--mu:var(--aa-muted)!important;--m:var(--aa-muted)!important;--line:var(--aa-border)!important;--ln:var(--aa-border)!important;--bd:var(--aa-border)!important;--mint:var(--aa-soft)!important;--tl:var(--aa-accent)!important;--teal:var(--aa-accent)!important;--brand:#0F6F69!important;--on:#FFFFFF!important;--bt:#0F6F69!important;--g:#0F6F69!important;--gd:#0B504B!important;--r:var(--aa-danger)!important;--red:#A51D27!important;--amb:var(--aa-warnbg)!important;--ambt:var(--aa-warntext)!important;--ambl:#B78926!important;--okbg:var(--aa-okbg)!important;--ok:var(--aa-oktext)!important;--nobg:var(--aa-nobg)!important;--no:var(--aa-notext)!important;}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--aa-progress:#83E1CD;--aa-track:#213F39;--aa-bg:#0B1E1C;--aa-surface:#142D2A;--aa-soft:#1C3B35;--aa-text:#F0F8F5;--aa-muted:#B5CFCA;--aa-accent:#83E1CD;--aa-border:#789C96;--aa-danger:#FFB5BC;--aa-warnbg:#41351A;--aa-warntext:#FFE39A;--aa-okbg:#173D2C;--aa-oktext:#ADE8C3;--aa-nobg:#48252C;--aa-notext:#FFBDC5;color-scheme:dark;}}
+:root[data-theme="dark"]{--aa-progress:#83E1CD;--aa-track:#213F39;--aa-bg:#0B1E1C;--aa-surface:#142D2A;--aa-soft:#1C3B35;--aa-text:#F0F8F5;--aa-muted:#B5CFCA;--aa-accent:#83E1CD;--aa-border:#789C96;--aa-danger:#FFB5BC;--aa-warnbg:#41351A;--aa-warntext:#FFE39A;--aa-okbg:#173D2C;--aa-oktext:#ADE8C3;--aa-nobg:#48252C;--aa-notext:#FFBDC5;color-scheme:dark;}
+body{background:var(--aa-bg)!important;color:var(--aa-text)!important}
+input,textarea,select,option{background:var(--aa-surface)!important;color:var(--aa-text)!important;border-color:var(--aa-border)!important;caret-color:var(--aa-text)}
+input::placeholder,textarea::placeholder{color:var(--aa-muted)!important;opacity:1}
+input[type=checkbox],input[type=radio],input[type=range]{accent-color:#0F6F69}
+:focus-visible{outline:3px solid var(--aa-accent)!important;outline-offset:3px}
+h1,h2,h3,h4,p,label,dt,dd,th,td,summary,figcaption{color:inherit}
+a{color:var(--aa-accent)}
+.mut,.copy,.hint,.sub,.sm,.info dt,.pre span,.stats small,.stats p,.stats span,.streak-cell,.resident small,.leader-footer,.status,.badge small,.badge.locked b,.together small,.together p,.habit p,.habit small,.eyebrow,small{color:var(--aa-muted)!important}
+.card,.panel,.stats article,.st,.fn,.podium-card,.story,.fig,dialog,.pop,.ai,.o,.sp,.ib{background:var(--aa-surface)!important;color:var(--aa-text)!important;border-color:var(--aa-border)!important}
+.hero,.fb,.loc,.together,.task-icon,.chip,.notice,.close,.you,.you-label,.task-points,.tip,.big,.habit,#app,#sidebar,#leaderboard{background:var(--aa-soft)!important;color:var(--aa-text)!important;border-color:var(--aa-border)!important}
+main#app{background:var(--aa-soft)!important}
+#app>.big{background:transparent!important}
+#app>.big>.card{background:var(--aa-surface)!important}
+#app>.big>.card h2,#app>.hero h1{color:var(--aa-accent)!important}
+#app>.big>.card>p{color:var(--aa-muted)!important}
+#app>.big>.card>.row:last-child>span{background:var(--aa-soft)!important;color:var(--aa-accent)!important}
+#app>.big>.card::before{background-color:#F8FCFA}
+body>header,.shell{background:var(--aa-surface)!important;color:var(--aa-text)!important;border-color:var(--aa-border)!important}
+.brand,.brand small,.logo,.logo b,.logo svg,.cap,.go,.st b,.stats strong,.podium-points{color:var(--aa-accent)!important}
+nav a,.nv,.nt,.bt,.badge,.back,.tabs button{color:var(--aa-text)!important}
+nav a:hover,.nv:hover,.nt:hover,.tabs button:hover,.bt[aria-pressed=true]{background:var(--aa-soft)!important;color:var(--aa-text)!important}
+nav a[aria-current],.tabs button[aria-pressed=true],.nv[aria-current=page]{background:#0F6F69!important;color:#FFFFFF!important}
+button.btn,#login,button[type=submit],#menu{background:#0F6F69!important;color:#FFFFFF!important;border-color:#0F6F69!important}
+button.btn:hover,#login:hover,button[type=submit]:hover,#menu:hover{background:#0B504B!important;color:#FFFFFF!important}
+button.btn.ghost,button.btn.s,.btn.o,#app>.btn.ghost{background:var(--aa-surface)!important;color:var(--aa-accent)!important;border-color:var(--aa-border)!important}
+button.o,button.sp,.nt,.badge{background:var(--aa-surface)!important;color:var(--aa-text)!important}
+button.o:hover,button.sp:hover{border-color:var(--aa-accent)!important;background:var(--aa-soft)!important}
+.o.ok,.sp.seen,.pre label.on,.win,.alert.g{background:var(--aa-okbg)!important;color:var(--aa-oktext)!important;border-color:var(--aa-oktext)!important}
+.o.no,.alert.r,.ai.cx{background:var(--aa-nobg)!important;color:var(--aa-notext)!important;border-color:var(--aa-notext)!important}
+.strip,.alert.o,details{background:var(--aa-warnbg)!important;color:var(--aa-warntext)!important;border-color:#B78926!important}
+.alert{background:var(--aa-soft)!important;color:var(--aa-text)!important}
+.ov{background:var(--aa-surface)!important;color:var(--aa-danger)!important}
+.cnt{background:#A51D27;color:#FFFFFF!important}
+.badge:not(button){background:#18593B!important;color:#FFFFFF!important}
+.st.x{background:#A51D27!important;color:#FFFFFF!important}
+.st.live,.status-reviewed{background:#F4C95D!important;color:#513B00!important}
+.st.d,.status-resolved{background:#18593B!important;color:#FFFFFF!important}
+.status-received{background:#A51D27!important;color:#FFFFFF!important}
+.task.done label{color:var(--aa-oktext)!important}
+.task input:checked{background:#0F6F69!important;border-color:var(--aa-accent)!important}
+.task input:checked::after{color:#FFFFFF!important}
+#fill,.prog i,.bar i{background:var(--aa-progress)!important}
+.track,.prog,#app .bar{background:var(--aa-track)!important}
+#toast,.toast{background:#0B3B3A!important;color:#FFFFFF!important}
+.toast small{color:#E8F5F1!important;opacity:1}
+.nt.rd,.lk svg{opacity:1}
+#sidebar h2,#sidebar h3,#sidebar label,#leaderboard li{color:var(--aa-text)!important}
+#sidebar button:not(.leaflet-control button){background:#0F6F69;color:#FFFFFF}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--aa-surface)!important;color:var(--aa-text)!important}
+.leaflet-control a,.leaflet-bar a{background:var(--aa-surface)!important;color:var(--aa-text)!important}
+.leaflet-container .leaflet-control-attribution{background:var(--aa-surface)!important;color:var(--aa-text)!important}
+.leaflet-control-attribution a{color:var(--aa-accent)!important}
+.leaflet-tooltip{background:var(--aa-surface)!important;color:var(--aa-text)!important;border-color:var(--aa-border)!important}
+dialog::backdrop{background:#04110FC4}
+.tag,.avatar{background:var(--aa-soft)!important;color:var(--aa-text)!important;border-color:var(--aa-border)!important}
+.medal{background:#0F6F69!important;color:#FFFFFF!important;border-color:var(--aa-surface)!important}
+td:first-child,th,.tag,.badge-preview-controls label,.badge-unlock-popup p{color:var(--aa-muted)!important}
+.badge-unlock-popup,.badge-preview-controls,.floating-reward,.bonus-reward{background:var(--aa-surface)!important;color:var(--aa-text)!important;border-color:var(--aa-border)!important}
+.badge-preview-controls button{background:#0F6F69!important;color:#FFFFFF!important}
+[style*="color:var(--brand)"]{color:var(--aa-accent)!important}
+#why{background:var(--aa-surface)!important;color:var(--aa-text)!important}
+.strip button,.strip small{color:var(--aa-warntext)!important}
+.alert.o small{color:var(--aa-warntext)!important}
+.alert.r small{color:var(--aa-notext)!important}
+.alert.g small{color:var(--aa-oktext)!important}
+.stat-icon{background:var(--aa-soft)!important;color:var(--aa-accent)!important}
+</style></head><body><main id="app"></main>
+<script>
+const C=[
+{t:'Know your mosquito',d:'Which mosquitoes harm people, what their eggs look like, and how they grow.',
+L:[
+{t:'Meet the mosquito',b:`<p>A mosquito is a tiny flying insect with a long, thin mouth called a proboscis. It is only a few millimetres long, but it is one of the most dangerous animals for people, because some mosquitoes carry germs from one person to another.</p><p>Only <b>female</b> mosquitoes bite. They need the protein in blood to make their eggs. Male mosquitoes do not bite at all. They drink sweet plant juice, called nectar, like butterflies do.</p><p>There are thousands of kinds of mosquitoes in the world. Most are harmless to people. Only a few kinds spread diseases such as dengue and malaria, and you will meet them in this course.</p><p>The good news is that mosquitoes need water to start their life. If we remove the water, we can stop many of them before they ever fly.</p>`,q:['Which mosquitoes bite people?',['Only males','Only females','Both equally'],1,'Only females need blood to develop eggs.']},
+{t:'Three genera to know',b:`<p>Scientists group mosquitoes into families called <b>genera</b> (one is a genus). Three genera matter most for human health in Malaysia. Learning to tell them apart helps you know which disease to watch for.</p><p>Remember: a mosquito only spreads a disease if it first bit an infected person. Most mosquitoes that bite you are not infected, but you cannot tell by looking.</p>`,q:['A black mosquito with white leg stripes bites you at 4 pm. Which genus is most likely?',['Aedes','Anopheles','Culex'],0,'Aedes, the dengue mosquito, is striped and bites in the daytime.']},
+{t:'The life cycle',b:`<p>A mosquito goes through four stages in its life. This is called the <b>life cycle</b>.</p><p>In warm weather the whole cycle takes about 7 to 10 days. This is the most important number in the course. If you empty the water every week, the wrigglers never become flying mosquitoes. Drag the slider below to follow the stages day by day.</p>`,q:['Which stages need water?',['Only the adult','Egg, larva and pupa','Only the egg'],1,'The egg, larva and pupa all depend on water, so removing standing water stops the breeding.']},
+{t:'What the eggs look like',b:`<p>Knowing what mosquito eggs look like helps you find them before they hatch. Each type lays its eggs in a different way.</p><p>Aedes eggs are very tough. They can stay dry for months, and they hatch as soon as rain or new water covers them. That is why pouring out the water is not enough. You must also scrub the walls. Tap each mosquito below to see where its eggs are.</p>`,q:['You see a small black raft of eggs floating on a puddle. Which genus?',['Aedes','Culex','Anopheles'],1,'Culex lays floating rafts. Aedes eggs are single specks on the wall.']},
+{t:'Who bites, and when',b:`<p>Different mosquitoes bite at different times, so you need protection at different times of the day.</p><p>You cannot tell if a mosquito carries a disease by looking at it. So the safest habit is to protect yourself all day: wear long sleeves in the daytime, use repellent, and keep doors and windows screened.</p><p>Move the slider below to see which mosquitoes are active at each hour.</p>`,q:['When should you protect yourself from dengue mosquitoes?',['Only at night','Mainly during the day','Never indoors'],1,'Aedes bites mainly in the daytime, including indoors.']}],
+F:[
+['Which genus spreads dengue?',['Aedes','Culex','Anopheles'],0,'Aedes aegypti and Aedes albopictus spread dengue.'],
+['Which genus is linked with malaria?',['Anopheles','Aedes','Culex'],0,'Anopheles carries malaria parasites.'],
+['How long does the life cycle take in warm weather?',['About 1 day','About 7 to 10 days','About 3 months'],1,'Roughly 7 to 10 days, which is why weekly checks work.'],
+['Where does Aedes lay its eggs?',['In a raft on the surface','On leaves far from water','On the container wall just above the waterline'],2,'Eggs stick singly just above the waterline and hatch when water rises.'],
+['Why do female mosquitoes bite?',['To drink nectar','To get blood for developing eggs','To mark territory'],1,'Blood supplies protein for egg development.']]},
+{t:'Where they breed',d:'The indoor, outdoor and community places where mosquitoes lay eggs.',
+L:[
+{t:'What a mosquito needs',b:`<p>Mosquitoes simply lay their eggs wherever they find <b>still water</b>. That can be a big pond or something as small as a bottle cap with rainwater inside.</p><p>Different mosquitoes like different water. Aedes (dengue) prefer clean, still water in shady places close to homes. Culex like dirty water, such as in blocked drains. Anopheles like clean water in places such as streams, ponds and swamps, often away from town.</p><p>Time is also important. Water that sits still for 7 days or more is long enough for eggs to grow into new flying mosquitoes. Moving water, covered water and dry containers do not give them a good place to start.</p><p>Drag the slider below to see what happens as water stays still for longer.</p>`,q:['Which is the biggest warning sign for breeding?',['Strong wind','Still water left for over a week','Direct sunlight'],1,'Water that stands for a week or more can grow a new generation.']},
+{t:'Inside the home',b:`<p>Many people think mosquitoes breed only outside, but the Aedes mosquito often breeds inside the home. Anything that holds water for a week can be a breeding site, even if it is small and hidden.</p><p>Common places are flower vases, the drip tray of a water dispenser or fridge, the drip tray under an air-conditioner, buckets and tanks in the bathroom, saucers under plant pots and pet water bowls. They are easy to forget because we see them every day.</p><p>Check these places once a week. Pour out the water, scrub the sides and refill with fresh water if needed.</p>`,q:['Which is an indoor breeding site?',['A dry floor','A closed cupboard','A flower vase with old water'],2,'Vase water that is not changed often is a classic site.']},
+{t:'Around the house and street',b:`<p>Outside, rain is the biggest helper for mosquitoes. After a storm, water collects in all kinds of things that people have thrown away or forgotten.</p><p>Look for old tyres, empty cans, bottles, plastic cups and food boxes, blocked drains and roof gutters, plant pots, folds in plastic sheets and hollow bamboo stumps. A single old tyre can hold rainwater for weeks and breed many mosquitoes.</p><p>Many of these places are easy to fix. Throw rubbish away properly, turn containers upside down and keep drains clear.</p>`,q:['After heavy rain, which is a common risk?',['Clean dry pavements','Closed windows','Old tyres filled with water'],2,'Tyres hold rainwater for weeks.']},
+{t:'Shared and public places',b:`<p>Mosquitoes do not stop at your fence. A neglected place in your neighbourhood can send mosquitoes into many homes, because they can fly to nearby houses.</p><p>Watch for construction sites with puddles and open drums, empty land with piles of rubbish, bin areas, recycling points where cans and bottles collect rain, and ponds or drains that nobody cleans.</p><p>These shared places are easy to overlook because nobody feels they own the problem. That is why community action and reporting matter. If you see one, tell the owner, the residents' committee or the local council.</p>`,q:['Why do open recycling bins need lids?',['Lids make bins heavier','Rain collects in the cans and bottles inside','Mosquitoes eat paper'],1,'Rain fills cans and bottles inside the bin and creates breeding sites.']}],
+F:[
+['Which place is most likely to breed Aedes?',['A sealed tank with a tight lid','A plant saucer with old water','A dry rooftop'],1,'Aedes breed in small pools of still water near homes.'],
+['Culex mosquitoes are most associated with...',['Blocked drains with dirty water','Dry sand','Fast-flowing rivers'],0,'Culex tolerate dirty, still water.'],
+['How often should water in vases and trays be emptied?',['Once a month','Only when it smells','At least every 7 days'],2,'Weekly emptying breaks the 7 to 10 day cycle.'],
+['Which is NOT a likely breeding site?',['Discarded cup holding rainwater','Blocked roof gutter','Clean dry floor tiles'],2,'Without standing water there is nothing to breed in.']]},
+{t:'Stop the breeding',d:'Simple habits that keep your home and neighbourhood mosquito-free.',
+L:[
+{t:'Empty, scrub, cover',b:`<p>The best way to stop mosquitoes is to stop them breeding. There are three simple steps for any container that holds water: <b>empty it, scrub it and cover it</b>.</p>`,q:['Why scrub container walls?',['To make them shiny','Eggs stick to the wall and survive a quick rinse','Scrubbing kills adults'],1,'Eggs cling to the wall and can hatch later if left behind.']},
+{t:'Drains, gutters and rubbish',b:`<p>Some breeding sites are not containers you can pour out. They are places where water cannot flow or where rubbish holds water.</p>`,q:['What stops drains becoming breeding sites?',['Letting leaves collect','Covering them with plastic','Clearing blockages so water flows'],2,'Flowing water leaves no still pool for eggs.']},
+{t:'Protect yourself and report',b:`<p>Even with good habits, some mosquitoes will still be around. So protect yourself and help your community.</p>`,q:['You have a fever, severe headache and joint pain after mosquito bites. What now?',['See a doctor early','Wait two weeks','Ignore it'],0,'Early medical care matters for dengue.']}],
+F:[
+['Which habit best breaks the breeding cycle?',['A weekly check that empties standing water','Spraying perfume','Closing curtains'],0,'Removing water every week stops larvae maturing.'],
+['How should you clean a water container?',['Rinse quickly and refill','Scrub the walls, then empty or cover it','Add more water'],1,'Scrubbing removes the sticky eggs.'],
+['Who should you report a neglected breeding site to?',['A neighbour\'s pet','A shop','The local council or health office'],2,'Authorities can inspect and clear shared sites.'],
+['Which protects you from bites?',['Leaving doors open','Window screens and repellent','Wearing shorts outdoors'],1,'Physical barriers and repellent reduce bites.']]}
+];
+const $=s=>document.querySelector(s),A=$('#app');
+let P={l:{},f:{}},S={};
+try{P=JSON.parse(localStorage.getItem('mba'))||P}catch(e){}
+const save=()=>{try{localStorage.setItem('mba',JSON.stringify(P))}catch(e){}};
+const nl=i=>C[i].L.filter((_,j)=>P.l[i+'-'+j]).length;
+const go=h=>{A.innerHTML=h;A.classList.toggle('wide',h.includes('class="big"'));window.scrollTo(0,0)};
+const qbox=q=>`<div>${q[0].length?`<h3>${q[0]}</h3>`:''}${q[1].map((o,k)=>`<button class="o" onclick="pick(${k})">${o}</button>`).join('')}<p id="why" hidden></p></div>`;
+function pick(k){if(S.done)return;S.done=1;const q=S.cur,ok=k==q[2];
+document.querySelectorAll('.o').forEach((b,x)=>{b.disabled=true;if(x==q[2])b.classList.add('ok');else if(x==k)b.classList.add('no')});
+const w=$('#why');w.hidden=false;w.textContent=(ok?'Correct. ':'Not quite. ')+q[3];
+S.after&&S.after(ok);$('#nx').hidden=false}
+function home(){
+const tot=C.reduce((a,c)=>a+c.L.length+1,0),done=C.reduce((a,c,i)=>a+nl(i)+(P.f[i]>=70?1:0),0),p=Math.round(done/tot*100),all=C.every((_,i)=>P.f[i]>=70);
+go(`<div class="hero"><div><h1>Course</h1><p class="mut">Three short courses to spot, stop and prevent mosquito breeding in your community.</p></div></div>${all?'<div class="card win"><h2>You are a Mosquito Buster!</h2><p>All 3 courses passed. Share what you learned with your neighbours.</p></div>':''}
+<div class="big">${C.map((c,i)=>{const n=nl(i),t=c.L.length;return `<div class="card" role="button" tabindex="0" onclick="lesson(${i},0)" onkeydown="if(event.key=='Enter')lesson(${i},0)"><div class="row"><h2>Course ${i+1}: ${c.t}</h2>${P.f[i]>=70?'<span class="badge">Passed</span>':''}</div><p>${c.d}</p><div class="bar"><i style="width:${n/t*100}%"></i></div><div class="row" style="margin-top:12px"><small>${n} of ${t} lessons${P.f[i]!=null?', best quiz '+P.f[i]+'%':''}</small><span aria-hidden="true">›</span></div></div>`}).join('')}</div>
+`)}
+
+function course(i){const c=C[i],ok=nl(i)==c.L.length;
+go(`<button class="back" onclick="home()">‹ All courses</button><h1>${c.t}</h1><p class="mut">${c.d}</p>
+${c.L.map((l,j)=>`<button class="o" onclick="lesson(${i},${j})">${P.l[i+'-'+j]?'✓ ':''}Lesson ${j+1}: ${l.t}</button>`).join('')}
+<button class="o fin" ${ok?'':'disabled'} onclick="quiz(${i})">Final quiz: ${c.F.length} questions, pass at 70%${ok?'':' (finish all lessons first)'}</button>`)}
+function lesson(i,j){const l=C[i].L[j],last=j==C[i].L.length-1;
+S={cur:l.q,done:0,after:()=>{P.l[i+'-'+j]=1;save()}};
+go(`<button class="back" onclick="course(${i})">‹ ${C[i].t}</button><h1>${l.t}</h1><div class="card">${l.b}</div>${qbox(l.q)}<button id="nx" class="btn" hidden onclick="${last?`course(${i})`:`lesson(${i},${j+1})`}">${last?'Back to course':'Next lesson'}</button>`)}
+function quiz(i,n=0,s=0){const c=C[i],len=c.F.length;
+if(n==len){const pc=Math.round(s/len*100);P.f[i]=Math.max(P.f[i]||0,pc);save();
+return go(`<h1>${pc>=70?'Passed!':'Not yet'}</h1><div class="card"><h2>${s} of ${len} correct (${pc}%)</h2><p>${pc>=70?'You earned the badge for '+c.t+'.':'You need 70% to pass. Review the lessons and try again.'}</p></div><button class="btn" onclick="${pc>=70?'home()':`quiz(${i})`}">${pc>=70?'Back to courses':'Retry quiz'}</button> <button class="btn ghost" onclick="course(${i})">Review lessons</button>`)}
+S={cur:c.F[n],done:0,i,n,s,after:ok=>{if(ok)S.s++}};
+go(`<button class="back" onclick="course(${i})">‹ Leave quiz</button><p class="mut">Question ${n+1} of ${len}</p>${qbox(c.F[n])}<button id="nx" class="btn" hidden onclick="quiz(S.i,S.n+1,S.s)">${n==len-1?'See result':'Next question'}</button>`)}
+let SP=[],SL=[],SLH=0;
+const spots=it=>{SP=it;return `<p class="mut">Tap each one to learn more. Found <b id="cnt">0</b> of ${it.length}.</p><div class="grid">${it.map((x,k)=>`<button class="sp" onclick="sp(this,${k})">${x[0]}</button>`).join('')}</div><div class="tip" id="tip">Tap an item above.</div>`};
+function sp(b,k){b.classList.add('seen');$('#tip').textContent=SP[k][1];const n=document.querySelectorAll('.sp.seen').length;$('#cnt').textContent=n;if(n==SP.length)$('#tip').textContent+=' All found!'}
+const slide=(lab,mn,mx,st,fmt)=>{SL=st;SLH=fmt;return `<label>${lab}: <b id="sv"></b></label><input type="range" min="${mn}" max="${mx}" value="${mn}" aria-label="${lab}" oninput="sl(this.value)"><div class="tip" id="so"></div>`};
+function sl(v){v=+v;$('#sv').textContent=SLH?v+':00':'Day '+v;$('#so').textContent=SL.filter(s=>s[0]<=v).pop()[1]}
+const eggW=()=>`<div class="tabs"><button class="sp" onclick="egg(0)">Aedes</button><button class="sp" onclick="egg(1)">Culex</button><button class="sp" onclick="egg(2)">Anopheles</button></div><svg id="egs" viewBox="0 0 220 100" width="100%" role="img" aria-label="Where each genus lays eggs"></svg><div class="tip" id="egt"></div>`;
+function egg(g){let d='';
+if(g==0)for(const x of [34,62,96,130,166])d+=`<circle cx="${x}" cy="43" r="3.5" fill="currentColor"/>`;
+if(g==1)for(let r=0;r<2;r++)for(let c=0;c<10;c++)d+=`<ellipse cx="${82+c*6}" cy="${50+r*5}" rx="2.5" ry="3" fill="currentColor"/>`;
+if(g==2)for(const x of [60,90,118,150])d+=`<ellipse cx="${x}" cy="51" rx="4" ry="2.5" fill="currentColor"/>`;
+$('#egs').innerHTML=`<rect x="20" y="10" width="180" height="80" rx="6" fill="none" stroke="currentColor" stroke-width="3"/><rect x="23" y="53" width="174" height="34" fill="var(--water)" opacity=".7"/>`+d;
+$('#egt').textContent=['Aedes lays eggs one by one. Each egg is tiny, about 1 mm long, black and oval, like a speck of pepper. The eggs are stuck to the wall of the container, just above the water line. They are very hard to see.','Culex lays 100 or more eggs together, stuck side by side in a floating group called a raft. It looks like a tiny dark boat on the water.','Anopheles lays single eggs that float on the water surface. Each egg has small air-filled floats on its sides.'][g]||'Tap a mosquito above to see where its eggs are.';
+document.querySelectorAll('.tabs .sp').forEach((b,x)=>b.classList.toggle('seen',x==g))}
+const ckW=it=>{SP=it;return `<p class="mut">Tick each item as you check it. <b id="cnt">0</b> of ${it.length} done.</p>`+it.map(t=>`<label class="ck"><input type="checkbox" onchange="ck()">${t}</label>`).join('')+`<div class="tip" id="tip"></div>`};
+function ck(){const n=document.querySelectorAll('.ck input:checked').length;$('#cnt').textContent=n;$('#tip').textContent=n==SP.length?'All clear. Repeat this next week.':''}
+const X={
+'0-1':()=>['<p>Tap each mosquito box below to read how it looks, when it bites and what disease it spreads.</p>',spots([['Aedes','The dengue mosquito. It also spreads chikungunya and Zika. It is black with white stripes on its legs, and some people call it the tiger mosquito. It bites in the daytime and often lives inside and around homes.'],['Anopheles','Spreads malaria. When it rests, its rear end points up in the air. It bites from dusk until dawn and is often found near forests, streams and swamps.'],['Culex','Spreads filariasis (a disease that makes the legs swell) and Japanese encephalitis (a brain infection). It is brownish and bites at night. It likes dirty water, such as blocked drains.']])],
+'0-2':()=>['<p>Tap each stage to read about it, then drag the slider to follow the days.</p>',spots([['Egg','The female lays tiny eggs on or near water. When water covers the eggs, they hatch in about 1 to 3 days.'],['Larva (wriggler)','A small worm-like creature that swims with a wriggling movement. It eats tiny bits of food in the water and comes up to the surface to breathe. This stage lasts about 4 to 6 days.'],['Pupa (tumbler)','It stops eating and rolls around in the water while its body changes. This lasts 1 to 2 days.'],['Adult','The new mosquito splits its skin, rests on the water for a short time, then flies away.']])+slide('Days since eggs touched water',0,10,[[0,'Egg: eggs covered by water start to hatch within 1 to 3 days.'],[3,'Larva (wriggler): feeds, grows and comes up to breathe. About 4 to 6 days.'],[7,'Pupa (tumbler): stops feeding and changes into an adult. About 1 to 2 days.'],[9,'Adult: a new mosquito flies out. Removing the water before this day stops it.']])],
+'0-3':()=>[0,eggW()],
+'0-4':()=>['<p>Tap each box to read, then move the slider to see which mosquitoes are active at each hour.</p>',spots([['Aedes (dengue)','Bites mainly in the daytime. The busiest times are early morning and late afternoon. It likes shady places and often bites around the ankles and legs. It can bite you inside your own home.'],['Anopheles and Culex','Both bite from dusk, through the evening and at night. Anopheles spreads malaria and Culex spreads filariasis and Japanese encephalitis, so use nets and screens at night.']])+slide('Time of day',0,23,[[0,'Night: Culex and Anopheles are active. Aedes mostly rests.'],[5,'Early morning: Aedes starts biting and peaks.'],[10,'Daytime: Aedes still bites, often in shade and indoors.'],[16,'Late afternoon: Aedes peaks again.'],[19,'Dusk and evening: Culex and Anopheles start biting.']],1)],
+'1-0':()=>[0,slide('Days water stands still',0,10,[[0,'Fresh water. Low risk if you empty it soon.'],[2,'Eggs may be hatching in the water.'],[4,'Wrigglers are growing. Empty and scrub now.'],[8,'Adults are about to fly out. Too late for this batch.']])],
+'1-1':()=>['<p>Walk through a home. Tap each place to see why it breeds mosquitoes and the fix.</p>',spots([['Flower vase','Water in a vase can stay for days. Change it every few days and scrub the sides, because eggs can stick to the glass.'],['Dispenser tray','The small tray under a water dispenser or fridge collects drips and is often forgotten. Empty and wipe it at least once a week.'],['Air-con tray','Water drips from an air-conditioner into a tray or pipe. If it does not drain well, it becomes a breeding place. Check and clean it regularly.'],['Bathroom bucket','Buckets and tanks that hold water for days are perfect for Aedes. Turn the bucket upside down when not in use and cover any tank.'],['Plant saucer','The dish under a plant pot fills with water after watering. Do not leave water standing in it, and empty it every few days.'],['Pet bowl','Pets need water, but old water breeds mosquitoes. Rinse the bowl and refill it with fresh water every day.']])],
+'1-2':()=>['<p>Now step outside. Tap each place to see the risk and the fix.</p>',spots([['Old tyre','A tyre is a perfect cup for rain, and it can hold water for weeks. Store tyres under cover, or drill drain holes in them.'],['Roof gutter','Leaves and mud block the gutter so rainwater stays in it. Clear the gutter regularly so water can flow away.'],['Blocked drain','Still, dirty water in a blocked drain is the favourite place of Culex. Keep drains clear so water keeps moving.'],['Discarded can','Even a small can or cup can hold enough rain for mosquitoes to breed. Put rubbish in a bin and crush cans.'],['Tarpaulin fold','Plastic sheets have folds and low spots where rain collects. Stretch them tight or shake the water out after rain.'],['Bamboo stump','A hollow bamboo stump fills with rain like a small cup. Cut it open or fill it with soil.']])],
+'1-3':()=>['<p>Shared spaces are easy to overlook because nobody feels responsible. Tap each one.</p>',spots([['Construction site','Puddles, open drums and uncovered pipes collect water. Ask the site manager to drain and cover them, and check after rain.'],['Empty lot','Piles of rubbish hold rainwater and can breed many mosquitoes. Report it to the owner or the local council.'],['Recycling bin','Open bins with cans and bottles fill with rain. Use lids, empty the containers before binning and keep the area clean.'],['Neglected pond','A pond with no care and still water breeds mosquitoes. Report it, or stock larvae-eating fish such as guppies.']])],
+'2-0':()=>['<p>Tap each step to read how to do it.</p>',spots([['Empty','Pour out the water. Do not just top it up, because old water may already contain eggs or wrigglers.'],['Scrub','Use a brush on the walls and rinse. Aedes eggs stick tightly to the wall and survive a quick rinse, so scrubbing removes them.'],['Cover or flip','Turn buckets, pots and bottles upside down, and put tight lids or fine mesh over tanks and drums that must hold water.'],['Old tyres','Store old tyres under cover or drill drain holes in them so they cannot hold rain.']])],
+'2-1':()=>['<p>Tap each habit to read more.</p>',spots([['Clear drains','Keep drains clear of leaves, mud and plastic so rainwater flows away quickly. Moving water gives mosquitoes no place to lay eggs.'],['Clear gutters','Remove leaves from roof gutters often, especially after storms, so water does not sit in them.'],['Bin rubbish','Put rubbish in a bag and bin it, and crush cans and bottles so they cannot hold water.'],['Level puddles','Fill holes and low spots in the ground so puddles do not stay for days.'],['Pond fish','In a garden pond or large water tank that you want to keep, add small fish such as guppies. They eat the wrigglers.']])],
+'2-2':()=>['<p>Tap each item to read more.</p>',spots([['Repellent','Use repellent that contains DEET or picaridin on skin that is not covered, and follow the label.'],['Cover up','Wear long sleeves and long trousers, especially in the daytime when Aedes bites.'],['Screens and nets','Fit screens on windows and doors, and sleep under a net where needed.'],['Larvicide','A product that kills wrigglers. Use it only as advised by the health authorities.'],['Report','If you see a neglected place that breeds mosquitoes, tell the local council or health office.'],['See a doctor','Fever with a severe headache, pain behind the eyes, joint pain or a rash may be dengue. See a doctor early.']])]};
+const W='stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"';
+const fig=(s,c)=>`<figure class="fig">${s}<figcaption>${c}</figcaption></figure>`;
+const mos=(x,r,dash,lab)=>`<g transform="translate(${x} 88) rotate(${r})"><ellipse cx="24" cy="-17" rx="24" ry="5" fill="currentColor"/><circle cx="-2" cy="-17" r="5" fill="currentColor"/><path d="M-6 -14L-16 -1" stroke="currentColor" stroke-width="2"/><path d="M10 -14L5 0M22 -14L24 0M34 -14L44 0" stroke="currentColor" stroke-width="2" fill="none"${dash?' stroke-dasharray="4 3"':''}/><ellipse cx="30" cy="-25" rx="18" ry="3" fill="none" stroke="currentColor" opacity=".6"/></g><text x="${x+22}" y="108" text-anchor="middle">${lab}</text>`;
+const FIG={
+'0-2':fig(`<svg viewBox="0 0 360 120" role="img" aria-label="Life cycle: egg, larva, pupa, adult"><rect x="0" y="66" width="262" height="54" fill="var(--water)" opacity=".55"/><g fill="currentColor"><ellipse cx="40" cy="96" rx="4" ry="2.5"/><ellipse cx="50" cy="100" rx="4" ry="2.5"/><ellipse cx="45" cy="90" rx="4" ry="2.5"/><circle cx="108" cy="92" r="4.5"/><ellipse cx="205" cy="90" rx="8" ry="10"/><ellipse cx="310" cy="32" rx="16" ry="4"/><circle cx="292" cy="32" r="4.5"/></g><path d="M112 92q9-10 18 0t18 0" ${W}/><path d="M210 98q10 6 14-4" ${W}/><path d="M302 28q8-16 22-12M300 36l-6 14M310 36l2 15M318 35l10 12" stroke="currentColor" stroke-width="2" fill="none"/><text x="45" y="40" text-anchor="middle">Egg</text><text x="45" y="54" text-anchor="middle">1 to 3 days</text><text x="128" y="40" text-anchor="middle">Larva</text><text x="128" y="54" text-anchor="middle">4 to 6 days</text><text x="208" y="40" text-anchor="middle">Pupa</text><text x="208" y="54" text-anchor="middle">1 to 2 days</text><text x="310" y="72" text-anchor="middle">Adult</text><text x="310" y="86" text-anchor="middle">flies out</text><text x="86" y="98" font-size="18">›</text><text x="168" y="98" font-size="18">›</text><text x="250" y="58" font-size="18">›</text></svg>`,'The first three stages live in the water (blue). Only the adult flies.'),
+'1-0':fig(`<svg viewBox="0 0 360 120" role="img" aria-label="Small containers holding still water"><g ${W}><ellipse cx="45" cy="92" rx="16" ry="5"/><path d="M120 38h28l-5 52h-18z"/><circle cx="232" cy="68" r="26" style="stroke-width:9"/><path d="M292 44h50l-6 46h-38z"/></g><g fill="var(--water)" opacity=".75"><ellipse cx="45" cy="92" rx="13" ry="3.5"/><path d="M122 62h26l-3 28h-20z"/><circle cx="232" cy="68" r="17"/><path d="M296 62h42l-3 28h-36z"/></g><path d="M127 78q3-4 6 0t6 0M222 66q3-4 6 0t6 0M305 76q3-4 6 0t6 0" stroke="currentColor" stroke-width="2" fill="none"/><text x="45" y="112" text-anchor="middle">Bottle cap</text><text x="134" y="112" text-anchor="middle">Vase</text><text x="232" y="112" text-anchor="middle">Tyre</text><text x="317" y="112" text-anchor="middle">Bucket</text></svg>`,'Even a bottle cap of still water can hold wrigglers (the small squiggles).')};
+function lesson(i,j){const c=C[i],l=c.L[j],n=c.L.length,x=X[i+'-'+j]?.();P.l[i+'-'+j]=1;save();
+go(`<button class="back" onclick="${j?`lesson(${i},${j-1})`:'home()'}">‹ ${j?'Previous lesson':'All courses'}</button><p class="mut">${c.t}: lesson ${j+1} of ${n}</p><div class="bar"><i style="width:${(j+1)/n*100}%"></i></div><h1 style="margin-top:14px">${l.t}</h1>${FIG[i+'-'+j]||''}<div class="card">${l.b}${x?`<div class="wd">${x[1]}</div>`:''}</div><button class="btn" onclick="${j<n-1?`lesson(${i},${j+1})`:`quiz(${i})`}">${j<n-1?'Next lesson':'Start the quiz'}</button>`);
+if($('#sv'))sl($('input[type=range]').value);if($('#egs'))egg(-1)}
+function quiz(i,n=0,s=0){const c=C[i],Q=[...c.L.map(l=>l.q),...c.F],len=Q.length;
+if(n==len){const pc=Math.round(s/len*100);P.f[i]=Math.max(P.f[i]||0,pc);save();
+return go(`<h1>${pc>=70?'Passed!':'Not yet'}</h1><div class="card"><h2>${s} of ${len} correct (${pc}%)</h2><p>${pc>=70?'You earned the badge for '+c.t+'.':'You need 70% to pass. Review the lessons and try again.'}</p></div><button class="btn" onclick="${pc>=70?'home()':`quiz(${i})`}">${pc>=70?'Back to courses':'Retry quiz'}</button> <button class="btn ghost" onclick="lesson(${i},0)">Review lessons</button>`)}
+S={cur:Q[n],done:0,i,n,s,after:ok=>{if(ok)S.s++}};
+go(`<p class="mut">${c.t}: quiz, question ${n+1} of ${len}</p><div class="bar"><i style="width:${n/len*100}%"></i></div><div style="margin-top:14px">${qbox(Q[n])}</div><button id="nx" class="btn" hidden onclick="quiz(S.i,S.n+1,S.s)">${n==len-1?'See result':'Next question'}</button>`)}
+home();
+</script></body></html>

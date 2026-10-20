@@ -1,0 +1,397 @@
+﻿<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aedes Together</title><link rel="stylesheet" href="style.css"><style id="badge-hexagon-design">
+/* Badge-only overrides: retain the reference palette, icons and existing motion. */
+:is(#badges, #badgeDetail) .badge-art {
+  --badge-hexagon: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  position: relative;
+  isolation: isolate;
+  width: 90px;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 114 / 139;
+  padding-bottom: 6px;
+  background: linear-gradient(#0003, #0003), var(--color);
+  clip-path: var(--badge-hexagon);
+  font-size: 34px;
+  line-height: 1;
+}
+:is(#badges, #badgeDetail) .badge-art::before,
+:is(#badges, #badgeDetail) .badge-art::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  clip-path: var(--badge-hexagon);
+}
+:is(#badges, #badgeDetail) .badge-art::before {
+  inset: 0 0 5.5%;
+  z-index: -2;
+  background: var(--color);
+}
+:is(#badges, #badgeDetail) .badge-art::after {
+  inset: 13.5% 15% 19%;
+  z-index: -1;
+  background: linear-gradient(#ffffff70, #ffffff70), var(--color);
+}
+#badgeDetail .badge-art {
+  width: 114px;
+  height: auto;
+  font-size: 44px;
+}
+@media (max-width: 360px) {
+  #badges .badge-art { width: 76px; font-size: 29px; }
+}
+</style><style id="restored-animation-styles">/* Active checklist interactions only; persisted progress never plays rewards. */
+.task{position:relative;border-radius:10px;transition:background-color .4s,box-shadow .4s}
+.task input{position:relative;transition:border-radius .35s,background-color .35s,border-color .35s,transform .35s}
+.task input:checked{border-radius:50%}
+.task label,.task p{transition:color .4s}
+.task .status{display:block;min-height:0;transition:color .4s}
+.task.done{background-color:#f4faf4}
+.task-pop{animation:task-glow .75s ease-out}
+.task-pop input{animation:check-bounce .5s ease-out}
+.task-pop input:before{content:'';position:absolute;inset:-6px;border:2px solid #6dbd96;border-radius:50%;pointer-events:none;animation:check-ripple .65s ease-out both}
+.floating-reward,.task-sparkles,.bonus-reward{position:absolute;pointer-events:none;z-index:2;font-weight:700;white-space:nowrap}
+.floating-reward{left:27px;top:0;color:var(--teal);font-size:12px;background:#effbf3;border-radius:20px;padding:5px 10px;animation:reward-rise .8s ease-out both}
+.task-sparkles{left:4px;top:10px;color:#d8b34c;font-size:23px;letter-spacing:10px;animation:sparkle-out .7s ease-out both}
+#checklist{position:relative}
+.mission-celebration{animation:mission-glow 1.8s ease-out}
+.bonus-reward{top:95px;right:20px;background:#fff2c7;color:#8d7029;padding:9px 14px;border-radius:20px;font-size:13px;animation:bonus-rise 1.6s ease-out both}
+#points,#percent{font-variant-numeric:tabular-nums}
+.confetti{animation-duration:1.55s}
+@keyframes check-bounce{0%{transform:scale(.85)}45%{transform:scale(1.27)}75%{transform:scale(.95)}100%{transform:scale(1)}}
+@keyframes check-ripple{from{transform:scale(.6);opacity:.7}to{transform:scale(1.9);opacity:0}}
+@keyframes task-glow{0%,100%{box-shadow:0 0 0 0 transparent}35%{box-shadow:0 0 18px 3px #9bdbb951;background:#e6f8ec}}
+@keyframes reward-rise{0%{opacity:0;transform:translateY(8px)}20%{opacity:1}100%{opacity:0;transform:translateY(-38px)}}
+@keyframes sparkle-out{0%{opacity:0;transform:scale(.6)}30%{opacity:1}100%{opacity:0;transform:translateY(-22px) scale(1.3)}}
+@keyframes mission-glow{0%,100%{box-shadow:0 4px 18px #264c3003}35%{box-shadow:0 0 30px #70bd8c55;border-color:#8ecda4}}
+@keyframes bonus-rise{0%{opacity:0;transform:translateY(15px) scale(.9)}20%,65%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-28px)}}
+@media(prefers-reduced-motion:reduce){.task,.task input,.task label,.task p{transition:none}.floating-reward,.task-sparkles,.bonus-reward{display:none}}
+/* First-time badge notification: independent of weekly/task confetti. */
+.badge-unlock-popup{position:fixed;top:max(22px,env(safe-area-inset-top));left:50%;z-index:40;display:flex;align-items:center;gap:16px;width:max-content;max-width:calc(100vw - 32px);padding:18px 24px;border:1px solid #edce7d;border-radius:20px;background:linear-gradient(120deg,#fffdf3,#fff5d6);box-shadow:0 8px 35px #d6aa3b45,0 0 20px #f3d57755;transform:translateX(-50%);pointer-events:none;animation:badge-popup-bounce .65s cubic-bezier(.22,1,.36,1),badge-golden-glow 1.4s ease-in-out .65s}
+.badge-unlock-icon{display:grid;place-items:center;flex-shrink:0;width:61px;height:68px;background:var(--color);clip-path:polygon(50% 0,94% 24%,94% 74%,50% 100%,6% 74%,6% 24%);font-size:32px;filter:drop-shadow(0 0 7px #e4b339)}
+.badge-unlock-popup p{margin:0 0 6px;font-size:11px;font-weight:700;letter-spacing:.6px;color:#947227}
+.badge-unlock-popup strong{font-size:19px;line-height:1.35;color:var(--ink);overflow-wrap:anywhere}
+.badge-unlock-confetti{position:absolute;left:50%;top:40%;pointer-events:none}
+.badge-unlock-confetti i{position:absolute;width:6px;height:10px;border-radius:2px;opacity:0;animation:badge-confetti-burst 1.2s ease-out both}
+@keyframes badge-popup-bounce{0%{opacity:0;transform:translate(-50%,-24px) scale(.7)}55%{opacity:1;transform:translate(-50%,4px) scale(1.06)}78%{transform:translate(-50%,-2px) scale(.98)}100%{transform:translate(-50%,0) scale(1)}}
+@keyframes badge-golden-glow{50%{box-shadow:0 10px 40px #d6aa3b60,0 0 30px #f3d57780}}
+@keyframes badge-confetti-burst{0%{opacity:0;transform:translate(0,0) rotate(0)}15%{opacity:1}100%{opacity:0;transform:translate(var(--x),95px) rotate(var(--turn))}}
+@media(max-width:480px){.badge-unlock-popup{padding:14px 17px;gap:12px}.badge-unlock-popup strong{font-size:16px}.badge-unlock-popup p{font-size:10px}.badge-unlock-icon{width:49px;height:55px;font-size:27px}}
+@media(prefers-reduced-motion:reduce){.badge-unlock-popup,.badge-unlock-confetti i{animation:none!important}}
+
+
+/* Seven activity-specific cartoon vignettes. No layout shift or click blocking. */
+.task-scene{position:absolute;right:3px;top:50%;width:160px;height:90px;z-index:3;pointer-events:none;filter:drop-shadow(0 4px 9px #37664720);animation:scene-visit 1.85s ease both}
+.task-scene svg{display:block;width:100%;height:100%;overflow:visible}
+.task-scene svg g{transform-box:fill-box;transform-origin:center}
+.scene-tip{animation:scene-tip 1.7s ease-in-out both;transform-origin:77px 65px!important}
+.scene-drops{animation:scene-drops 1.7s ease both}
+.scene-grow{animation:scene-grow 1.7s ease both;transform-origin:bottom!important}
+.scene-debris{animation:scene-clear 1.7s ease both}
+.scene-flow{animation:scene-flow 1.7s ease both}
+.scene-lid{animation:scene-lid 1.7s cubic-bezier(.34,1.56,.64,1) both}
+.scene-seal{animation:scene-twinkle 1.7s ease both;transform-origin:center}
+.scene-bottle{animation:scene-bottle 1.7s ease both}
+.scene-can{animation:scene-can 1.7s ease both}
+.scene-broom{animation:scene-sweep 1.7s ease both;transform-origin:top!important}
+.scene-puddle{animation:scene-dry 1.7s ease both;transform-origin:center}
+.scene-dust{animation:scene-clear 1.7s ease both}
+.scene-gutter-leaf{animation:scene-leaf 1.7s ease both}
+.scene-gutter-water{animation:scene-drops 1.7s ease both}
+.scene-fresh-water{animation:scene-fill 1.7s ease both;transform-origin:bottom;transform-box:fill-box}
+.scene-flower{animation:scene-grow 1.7s ease both;transform-origin:bottom!important}
+.scene-scrub{animation:scene-scrub 1.7s ease both}
+.scene-twinkles{animation:scene-twinkle 1.7s ease both}
+@keyframes scene-visit{0%{opacity:0;transform:translateY(-45%) scale(.8)}12%,85%{opacity:1;transform:translateY(-50%) scale(1)}100%{opacity:0;transform:translateY(-56%) scale(.96)}}
+@keyframes scene-tip{0%,15%,90%,100%{transform:rotate(0)}40%,65%{transform:rotate(22deg)}}
+@keyframes scene-drops{0%,25%{opacity:0;transform:translateY(-10px)}40%{opacity:1;transform:translateY(0)}70%{opacity:0;transform:translateY(18px)}80%{opacity:1;transform:translateY(-4px)}100%{opacity:0;transform:translateY(12px)}}
+@keyframes scene-grow{0%,20%{transform:scale(.8)}65%{transform:scale(1.08)}100%{transform:scale(1)}}
+@keyframes scene-clear{0%,15%{transform:translateX(0);opacity:1}70%,100%{transform:translate(35px,-20px) rotate(30deg);opacity:0}}
+@keyframes scene-flow{0%,20%{opacity:.2;transform:translateX(-8px)}70%,100%{opacity:1;transform:translateX(8px)}}
+@keyframes scene-lid{0%,15%{transform:translate(-8px,-18px) rotate(-15deg)}60%,100%{transform:translate(0,0) rotate(0)}}
+@keyframes scene-twinkle{0%,30%{opacity:0;transform:scale(.4)}60%{opacity:1;transform:scale(1.2)}85%,100%{opacity:1;transform:scale(1)}}
+@keyframes scene-bottle{0%,15%{transform:translate(0,0)}45%{transform:translate(40px,-30px) rotate(25deg)}80%,100%{transform:translate(56px,20px) scale(.2);opacity:0}}
+@keyframes scene-can{0%,30%{transform:translate(0,0)}60%{transform:translate(-22px,-24px) rotate(-30deg)}90%,100%{transform:translate(-43px,15px) scale(.2);opacity:0}}
+@keyframes scene-sweep{0%{transform:rotate(-15deg) translateX(-10px)}30%{transform:rotate(15deg) translateX(12px)}60%{transform:rotate(-12deg)}90%,100%{transform:rotate(12deg) translateX(13px)}}
+@keyframes scene-dry{0%,20%{transform:scaleX(1);opacity:1}85%,100%{transform:scaleX(.1);opacity:0}}
+@keyframes scene-leaf{0%,15%{transform:translateX(0)}55%{transform:translateX(50px) rotate(25deg);opacity:1}90%,100%{transform:translate(65px,40px) rotate(90deg);opacity:0}}
+@keyframes scene-fill{0%,15%{transform:scaleY(.1);opacity:.3}85%,100%{transform:scaleY(1);opacity:1}}
+@keyframes scene-scrub{0%,100%{transform:translateY(0)}25%,65%{transform:translate(-12px,-12px)}45%,85%{transform:translate(0,5px)}}
+@media(max-width:480px){.task-scene{width:132px;height:75px;right:0}}
+@media(prefers-reduced-motion:reduce){.task-scene{display:none}.task-scene *{animation:none!important}}
+/* Compact temporary demo controls; all effects are confined to the preview stage. */
+.animation-preview{position:relative;margin-top:20px;padding:13px;border:1px dashed #dfcc91;border-radius:10px;background:#fffcf0;color:var(--ink);font-size:11px}
+.animation-preview summary{cursor:pointer;font-weight:600;color:var(--teal)}
+.animation-preview p{font-size:10px;line-height:1.6;color:var(--muted)}
+.animation-preview label{display:block;margin:12px 0 6px;font-weight:600}
+.animation-preview>div:not(.preview-stage){display:flex;gap:8px;flex-wrap:wrap}
+.animation-preview select{flex:1;min-width:0;width:100%;padding:8px;border:1px solid var(--line);border-radius:7px;background:#fff;color:var(--ink);font:inherit}
+.animation-preview button{padding:9px 12px;border:0;border-radius:7px;background:var(--teal);color:white;font:inherit}
+.preview-stage{margin-top:14px;border-radius:8px;padding:8px;background:#f4faf4}
+.preview-stage .task{min-height:100px;pointer-events:none}
+.preview-stage .task input:disabled{opacity:1}
+.preview-stage .preview-task-name{max-width:45%;font-size:10px}
+.preview-stage .track div{width:0}
+.preview-stage>small{display:block;margin-top:8px;color:var(--teal)}
+:is(#badges,#badgeDetail,.badge-unlock-popup) .badge-art{--badge-hexagon:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);position:relative;isolation:isolate;display:grid;place-items:center;max-width:100%;height:auto;aspect-ratio:114/139;padding-bottom:6px;background:linear-gradient(#0003,#0003),var(--color);clip-path:var(--badge-hexagon);line-height:1}
+:is(#badges,#badgeDetail,.badge-unlock-popup) .badge-art::before,:is(#badges,#badgeDetail,.badge-unlock-popup) .badge-art::after{content:'';position:absolute;pointer-events:none;clip-path:var(--badge-hexagon)}
+:is(#badges,#badgeDetail,.badge-unlock-popup) .badge-art::before{inset:0 0 5.5%;z-index:-2;background:var(--color)}
+:is(#badges,#badgeDetail,.badge-unlock-popup) .badge-art::after{inset:13.5% 15% 19%;z-index:-1;background:linear-gradient(#ffffff70,#ffffff70),var(--color)}
+.badge-unlock-popup .badge-art{width:61px;margin:0;font-size:32px;flex-shrink:0;filter:none}
+@media(max-width:480px){.badge-unlock-popup .badge-art{width:49px;font-size:27px}.task-scene{width:120px;height:68px}}
+@media(prefers-reduced-motion:reduce){.task-pop,.mission-celebration{animation:none}.animation-preview .task-scene{display:none}}/* Keep the reference's light animation surfaces readable under a dark host theme. */
+.animation-preview{--ink:#20463d;--muted:#65795f;--teal:#187b69;--line:#dce5d5}
+.badge-unlock-popup strong{color:#20463d}</style></head><body><main><section class="welcome"><div><p class="eyebrow">A LITTLE CARE. A HEALTHIER MALAYSIA.</p><h1>Small Actions,<br><em>Stronger Communities.</em></h1><p>Seven simple habits. One shared goal. Let's keep our<br> neighbourhoods free from mosquito breeding sites.</p></div><div class="illustration" aria-hidden="true"><span>☀</span><div>🌳 🏡 🏘️ 🌿</div><small>♡ Better together</small></div></section><section class="stats"><article><span class="stat-icon">✦</span><div><p>Your total points</p><strong id="points">0</strong><small>Every action makes a difference</small></div></article><article><span class="stat-icon mint">✓</span><div><p>This week's progress</p><strong id="summary">0 / 7</strong><small>Small steps, real community care</small></div></article><article><span class="stat-icon peach">🔥</span><div><p>Weekly streak</p><strong id="streak">0 weeks</strong><small id="best">Personal best: 0 weeks</small></div></article></section><section class="panel community" id="community"><div class="heading"><div><p class="eyebrow">A FRIENDLY LITTLE COMPETITION</p><h2>Good neighbours. Great impact.</h2><p>Meet the people making prevention a weekly habit.</p></div><span class="chip">● Fictional demo leaderboard</span></div><div class="toolbar"><div class="tabs" role="group" aria-label="Leaderboard type"><button id="individual" aria-pressed="true">♙ Individuals</button><button id="neighbourhood" aria-pressed="false">⌂ Neighbourhoods</button></div><small>✦ All-time prevention points</small></div><div class="podium" id="podium"></div><div class="table-wrap"><table><caption class="sr-only">Prevention points leaderboard</caption><thead><tr><th>RANK</th><th id="nameHeading">NEIGHBOUR</th><th>ACHIEVEMENT</th><th>STREAK</th><th>POINTS</th></tr></thead><tbody id="rows"></tbody></table></div><div class="leader-footer"><span id="rank"></span><a href="#checklist">Earn your next 10 points ↗</a></div></section><div class="columns"><section class="panel" id="checklist"><div class="heading"><div><p class="eyebrow">YOUR WEEKLY RITUAL</p><h2>A little care goes a long way</h2></div><span class="chip" id="week"></span></div><p class="copy">Spend a few minutes checking these common breeding spots.</p><div class="progress-label"><b id="progressText"></b><span id="percent"></span></div><div class="track"><div id="fill"></div></div><p id="message" class="copy" aria-live="polite"></p><div id="tasks"></div></section><aside><section class="panel" id="achievements"><div class="heading"><div><p class="eyebrow">LITTLE WINS, BIG PRIDE</p><h2>Your badge collection</h2></div><span class="chip" id="badgeCount"></span></div><p class="copy">Good habits deserve a little recognition.</p><div id="badges" class="badges"></div><p class="hint">Tap a badge to discover its story.</p></section><section class="habit"><span>🔥</span><div><h3>Make it a weekly thing.</h3><p id="encouragement"></p><small>Finish all 7 tasks each week to build your streak. No daily check-ins needed.</small><p class="reward">2 consecutive weeks: +20 pts.<br>4 weeks and every 4-week milestone: +40 pts.</p></div></section><section class="together"><span>🌱</span><h3>A safer street starts with us.</h3><p>Your flowerpot. Their backyard. Our community. Invite a neighbour to join your weekly prevention routine.</p><small>MADE FOR MALAYSIAN COMMUNITIES ♡</small></section></aside></div><footer><b>Aedes Together</b><span>Small actions today. A healthier neighbourhood tomorrow.</span><small>Hackathon prototype · Stored on this device</small></footer></main><dialog id="badgeModal"><button class="close" aria-label="Close">×</button><div id="badgeDetail"></div></dialog><div id="toast" role="status"></div><div id="confetti" aria-hidden="true"></div><script id="dashboard-interactions">/* Aedes Together: local-only weekly activity ledger. */
+(() => {
+'use strict';
+// Retain the legacy storage key so existing residents keep their progress.
+const KEY='jiran-challenge-v1', $=id=>document.getElementById(id);
+const tasks=[['🪴','Empty flowerpots & saucers','Empty stagnant water from flowerpots and saucers. Small pools can become breeding sites.'],['💧','Check & clear clogged drains','Remove leaves and debris so water flows freely through drains.'],['🪣','Cover water storage containers','Keep containers tightly covered to prevent mosquitoes laying eggs.'],['♻️','Dispose of unused containers','Dispose of unused bottles, cans and plastic containers that collect rainwater.'],['🌿','Freshen up outdoor spaces','Clean outdoor areas and remove standing water from hidden corners.'],['🏡','Check gutters & roof drainage','Check only where safely accessible. Never climb or risk a fall.'],['🌷','Refresh your flower vases','Replace water and scrub containers to remove mosquito eggs.']];
+const badges=[{id:'first',name:'First Step',icon:'🌱',color:'#bcdc9c',description:'A healthier neighbourhood starts with one small action.',requirement:'Complete your first prevention task.'},{id:'sweep',name:'Clean Sweep',icon:'✨',color:'#f1d482',description:'Seven small actions. A whole week of care.',requirement:'Complete all seven tasks in a week.'},{id:'star',name:'Consistency Star',icon:'⭐',color:'#c7bee9',description:'Your weekly habit is starting to shine.',requirement:'Complete two consecutive weeks.'},{id:'defender',name:'Dengue Defender',icon:'🛡️',color:'#a4d9d3',description:'A month of showing up for a safer neighbourhood.',requirement:'Complete four consecutive weeks.'},{id:'hero',name:'Community Hero',icon:'🏅',color:'#e9bd95',description:'Your care for your community really adds up.',requirement:'Reach 500 total points.'},{id:'champion',name:'Prevention Champion',icon:'👑',color:'#eace77',description:'An extraordinary milestone built on simple habits.',requirement:'Reach 1,000 total points.'}];
+const samples=[['Aisyah Rahman','Taman Melati',1280,12],['Daniel Tan','Taman Desa',1140,10],['Priya Kumar','Taman Bukit Indah',980,9],['Amir Hakim','Taman Melati',860,8],['Mei Ling','Taman Desa',750,7],['Siti Nurhaliza','Taman Setia',620,6],['Ravi Chandran','Taman Bukit Indah',490,5],['Nur Farah','Taman Setia',340,4],['Jason Lim','Taman Melati',210,3],['Hana Abdullah','Taman Desa',90,1]];
+// Monday-based local calendar dates; UTC arithmetic avoids DST week-length errors.
+function weekKey(date=new Date()){const d=new Date(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate()));d.setUTCDate(d.getUTCDate()-(d.getUTCDay()+6)%7);return d.toISOString().slice(0,10);}
+function previous(key){const d=new Date(key+'T00:00:00Z');d.setUTCDate(d.getUTCDate()-7);return d.toISOString().slice(0,10);}
+const fresh=()=>({version:1,weeks:{},badges:[]});let state;
+try{state=JSON.parse(localStorage.getItem(KEY));if(!state||state.version!==1||!state.weeks||typeof state.weeks!=='object'||Array.isArray(state.weeks)||!Array.isArray(state.badges))state=fresh();}catch{state=fresh();}
+for(const [key,w] of Object.entries(state.weeks)){if(!/^\d{4}-\d{2}-\d{2}$/.test(key)||!w||!Array.isArray(w.tasks)){delete state.weeks[key];continue;}w.tasks=Array.from({length:7},(_,i)=>['completed','approved'].includes(w.tasks[i])?'completed':'todo');}
+state.badges=state.badges.filter(id=>badges.some(b=>b.id===id));
+let current='',mode='individual',timer,warned=false;
+function ensureWeek(){current=weekKey();if(!state.weeks[current])state.weeks[current]={tasks:Array(7).fill('todo')};}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch{if(!warned){toast('Storage unavailable: progress lasts only for this session.');warned=true;}}}
+function complete(w){return w.tasks.every(s=>s==='completed');}
+// Recompute rewards from the ledger, so undo/recheck never duplicates points.
+function metrics(){let points=0,run=0,best=0,last=null,total=0,weeks=0;const runs={};Object.keys(state.weeks).sort().filter(k=>k<=current).forEach(k=>{const w=state.weeks[k],count=w.tasks.filter(s=>s==='completed').length;total+=count;points+=count*10;if(complete(w)){run=last===previous(k)?run+1:1;last=k;runs[k]=run;best=Math.max(best,run);weeks++;points+=30+(run===2?20:run%4===0?40:0);}else{run=0;last=null;}});return{points,best,streak:runs[current]||runs[previous(current)]||0,total,weeks,count:state.weeks[current].tasks.filter(s=>s==='completed').length};}
+function unlock(m){const conditions=[m.total>0,m.weeks>0,m.best>=2,m.best>=4,m.points>=500,m.points>=1000],earned=[];badges.forEach((b,i)=>{if(conditions[i]&&!state.badges.includes(b.id)){state.badges.push(b.id);earned.push(b.id);}});return earned;}
+function toast(text){clearTimeout(timer);$('toast').textContent=text;$('toast').classList.add('show');timer=setTimeout(()=>$('toast').classList.remove('show'),5000);}
+function celebrate(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;for(let i=0;i<30;i++){const c=document.createElement('i');c.className='confetti';c.style.left=Math.random()*100+'%';c.style.background=['#70ad8d','#f3d071','#b8d9b2','#dfb498'][i%4];c.style.animationDelay=Math.random()*.4+'s';$('confetti').append(c);setTimeout(()=>c.remove(),2400);}}
+function renderTasks(){
+if ($('tasks').children.length === tasks.length) {
+  tasks.forEach((_, i) => {
+    const input = $('task-' + i), done = state.weeks[current].tasks[i] === 'completed';
+    input.checked = done;
+    input.closest('.task').classList.toggle('done', done);
+    input.closest('.task').querySelector('.status').textContent = done ? '✓ Completed · uncheck to undo' : '';
+  });
+  return;
+}$('tasks').innerHTML=tasks.map(([icon,title,description],i)=>{const s=state.weeks[current].tasks[i];return `<div class="task ${s==='completed'?'done':''}"><input type="checkbox" id="task-${i}" data-task="${i}" ${s==='completed'?'checked':''} aria-describedby="desc-${i}"><span class="task-icon" aria-hidden="true">${icon}</span><div class="task-copy"><label for="task-${i}">${title}</label><p id="desc-${i}">${description}</p><span class="status">${s==='completed'?'✓ Completed · uncheck to undo':''}</span></div><span class="task-points">+10 pts</span></div>`;}).join('');}
+function renderBadges(earned=[]){$('badgeCount').textContent=`${state.badges.length} / 6`;$('badges').innerHTML=badges.map(b=>{const yes=state.badges.includes(b.id);return `<button class="badge ${yes?'':'locked'} ${earned.includes(b.id)?'earned':''}" data-badge="${b.id}" aria-label="${b.name}, ${yes?'unlocked':'locked'}: view requirements"><span class="badge-art${b.id==='first'?' badge-art--first':''}" style="--color:${b.color}">${b.icon}</span><b>${b.name}</b><small>${yes?'✓ Unlocked':'♧ Locked'}</small></button>`;}).join('');}
+function renderLeaderboard(m){let entries;if(mode==='individual'){entries=samples.map(([name,area,points,streak])=>({name,area,points,streak}));entries.push({name:'You',area:'Your local community',points:m.points,streak:m.streak,you:true});}else entries=['Taman Melati','Taman Desa','Taman Bukit Indah','Taman Setia','Taman Harmoni','Taman Mutiara','Taman Ria','Taman Damai','Taman Aman','Taman Indah'].map((name,i)=>({name,area:`${42-i*3} demo neighbours`,points:[5360,4820,4170,3280,2840,2310,1970,1620,1280,940][i],streak:Math.max(1,12-i)}));entries.sort((a,b)=>b.points-a.points);entries.forEach((e,i)=>e.rank=i+1);const avatar=e=>`<span class="avatar" style="background:${['#e9dcb8','#d6e7d9','#eed5be','#dbe6ee','#e6dcef'][(e.rank-1)%5]}">${e.you?'Y':e.name.split(' ').slice(0,2).map(s=>s[0]).join('')}</span>`;
+$('podium').innerHTML=[1,0,2].map(i=>{const e=entries[i];return `<article class="podium-card ${i===0?'gold':i===2?'bronze':'silver'}">${i===0?'<span class="crown" aria-hidden="true">♛</span>':''}<div class="podium-avatar">${avatar(e)}<span class="medal">${e.rank}</span></div><h3>${e.name}${e.you?' (you)':''}</h3><p>${e.area}</p><div class="podium-points">${e.points.toLocaleString()} <small>pts</small></div><small>🔥 ${e.streak}-week ${mode==='individual'?'streak':'team best'}</small></article>`;}).join('');
+const you=entries.find(e=>e.you),shown=entries.slice(0,10);if(you&&you.rank>10)shown.push(you);
+function achievement(e){if(mode!=='individual')return '🌿 Community care';if(e.you){const b=[...badges].reverse().find(b=>state.badges.includes(b.id));return b?b.icon+' '+b.name:'New neighbour';}return e.points>=1000?'👑 Champion':e.points>=500?'🏅 Hero':e.streak>=4?'🛡 Defender':e.streak>=2?'⭐ Consistency':'✨ Clean Sweep';}
+$('rows').innerHTML=shown.map(e=>`<tr class="${e.you?'you':''}"><td>${e.rank<=3?['🥇','🥈','🥉'][e.rank-1]:String(e.rank).padStart(2,'0')}</td><td><div class="resident">${avatar(e)}<div>${e.name}${e.you?'<span class="you-label">YOU</span>':''}<small>${e.area}</small></div></div></td><td><span class="tag">${achievement(e)}</span></td><td class="streak-cell">🔥 ${e.streak} weeks</td><td>${e.points.toLocaleString()}</td></tr>`).join('');$('nameHeading').textContent=mode==='individual'?'NEIGHBOUR':'NEIGHBOURHOOD';$('rank').textContent=you?`You're #${you.rank} of ${entries.length}. Top 10 + your position. Ties follow demo residents.`:'Fictional aggregate points · streak = best member · your points are not assigned to a team.';}
+function render(earned=[]){counterFrames.forEach(frame => cancelAnimationFrame(frame));counterFrames.clear();ensureWeek();const m=metrics(),percent=Math.round(m.count/7*100);$('points').textContent=m.points.toLocaleString();$('summary').textContent=`${m.count} / 7 tasks`;$('streak').textContent=`${m.streak} ${m.streak===1?'week':'weeks'}`;$('best').textContent=`Personal best: ${m.best} weeks`;$('progressText').textContent=`${m.count} of 7 completed`;$('percent').textContent=percent+'%';$('fill').style.width=percent+'%';$('message').textContent=m.count===7?'Beautiful work! All tasks completed. +30 weekly bonus earned.':m.count===0?'A fresh week, a fresh chance to make a difference.':`${7-m.count} more small actions to your +30 point weekly bonus.`;$('encouragement').textContent=m.streak>=4?`${m.streak} weeks strong! Dengue Defender energy.`:m.streak>=2?`${m.streak} weeks strong. Your consistency makes a difference.`:m.streak===1?'One complete week! Come back next week to keep growing.':'Your next good habit starts with one small action.';const start=new Date(current+'T12:00:00'),end=new Date(start);end.setDate(end.getDate()+6);const format=d=>d.toLocaleDateString('en-MY',{day:'numeric',month:'short'});$('week').textContent=format(start)+' – '+format(end);renderTasks();renderBadges(earned);renderLeaderboard(m);}
+function checkWeek(){if(weekKey()!==current){ensureWeek();save();tasks.forEach((_, i) => clearCompletionEffects(i));render();toast('A new week is here. Your historical points and badges are saved.');return true;}return false;}
+// Animation values never affect the ledger or leaderboard. Restart counters from
+// their current visible values when users toggle quickly.
+const counterFrames = new Map();
+function animateCounter(element, from, to, suffix = '') {
+  cancelAnimationFrame(counterFrames.get(element));
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    element.textContent = to.toLocaleString() + suffix;
+    return;
+  }
+  const start = performance.now();
+  function frame(now) {
+    const progress = Math.min(1, (now - start) / 550);
+    const value = Math.round(from + (to - from) * (1 - Math.pow(1 - progress, 3)));
+    element.textContent = value.toLocaleString() + suffix;
+    if (progress < 1) counterFrames.set(element, requestAnimationFrame(frame));
+    else counterFrames.delete(element);
+  }
+  counterFrames.set(element, requestAnimationFrame(frame));
+}
+function temporaryEffect(parent, text, className) {
+  const effect = document.createElement('span');
+  effect.className = className;
+  effect.textContent = text;
+  effect.setAttribute('aria-hidden', 'true');
+  parent.append(effect);
+  setTimeout(() => effect.remove(), 1800);
+}
+function clearCompletionEffects(index) {
+  const card = $('task-' + index).closest('.task');
+  card.classList.remove('task-pop');
+  card.querySelectorAll('.floating-reward, .task-sparkles, .task-scene').forEach(node => node.remove());
+  $('checklist').classList.remove('mission-celebration');
+  $('checklist').querySelectorAll('.bonus-reward').forEach(node => node.remove());
+  $('confetti').replaceChildren();
+}
+
+// Self-contained cartoon scenes. Presentation only: no reward or storage calls.
+function playTaskScene(index, card) {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  card.querySelectorAll('.task-scene').forEach(node => node.remove());
+  const face = '<circle cx="70" cy="55" r="2" fill="#285b4a"/><circle cx="84" cy="55" r="2" fill="#285b4a"/><path d="M73 62q4 5 8 0" fill="none" stroke="#285b4a" stroke-width="2"/><ellipse cx="65" cy="60" rx="4" ry="2" fill="#efb7a5"/><ellipse cx="89" cy="60" rx="4" ry="2" fill="#efb7a5"/>';
+  const drops = '<g class="scene-drops" fill="#72cbd6"><path d="M108 34q-9 12 0 12t0-12"/><path d="M121 46q-8 10 0 10t0-10"/><path d="M108 60q-7 9 0 9t0-9"/></g>';
+  const plant = '<g class="scene-grow"><path d="M77 43V17" stroke="#478a66" stroke-width="3"/><path d="M77 29Q56 32 60 17Q74 14 77 29M77 24Q96 26 94 12Q79 9 77 24" fill="#8fc58b"/></g>';
+  const scenes = [
+    // Tip the saucer OUT, rather than adding water to a breeding site.
+    '<ellipse cx="80" cy="78" rx="53" ry="5" fill="#dcebd9"/><g class="scene-tip"><path d="M49 43h56l-9 30H58Z" fill="#efc38e" stroke="#c59766" stroke-width="2"/>'+plant+face+'<path d="M42 75h70" stroke="#66a98a" stroke-width="6" stroke-linecap="round"/></g>'+drops,
+    '<rect x="30" y="54" width="104" height="23" rx="9" fill="#c2d8c8"/><path d="M41 61h81M41 69h81" stroke="#6c9785" stroke-width="3"/><g class="scene-debris"><path d="M56 38q22-20 29 2q-17 12-29-2" fill="#e2c176"/><path d="M87 45l12-12 10 12Z" fill="#b5c995"/></g><g class="scene-flow"><path d="M23 50q15-9 29 0t29 0t29 0t29 0" stroke="#6cc4cd" stroke-width="5" fill="none"/></g><circle cx="58" cy="62" r="2" fill="#285b4a"/><circle cx="104" cy="62" r="2" fill="#285b4a"/>',
+    '<rect x="49" y="35" width="57" height="42" rx="10" fill="#a6d5cf" stroke="#5d9f93" stroke-width="2"/>'+face+'<g class="scene-lid"><rect x="43" y="28" width="69" height="10" rx="5" fill="#599d80"/><rect x="68" y="22" width="19" height="8" rx="4" fill="#599d80"/></g><path class="scene-seal" d="M117 42l7 7 14-17" stroke="#e2b64f" stroke-width="4" stroke-linecap="round" fill="none"/>',
+    '<path d="M62 40h48l-5 37H68Z" fill="#9dc89d" stroke="#619768" stroke-width="2"/><rect x="58" y="35" width="56" height="8" rx="4" fill="#619768"/><text x="75" y="65" font-size="20" fill="white">♻</text><g class="scene-bottle"><path d="M24 21h12v12l5 5v27q-12 9-22 0V38l5-5Z" fill="#a4d8de" stroke="#65a5af" stroke-width="2"/><path d="M23 46h14" stroke="white" stroke-width="3"/></g><g class="scene-can"><rect x="126" y="36" width="18" height="26" rx="4" fill="#f2d47e"/><path d="M130 42h10" stroke="#c5a84f" stroke-width="2"/></g>',
+    '<ellipse class="scene-puddle" cx="86" cy="72" rx="43" ry="8" fill="#a0d9de"/><g class="scene-broom"><path d="M60 17l28 38" stroke="#ac865c" stroke-width="6" stroke-linecap="round"/><path d="M75 52l17-10 20 25-32 10Z" fill="#efd681" stroke="#c7a852" stroke-width="2"/><path d="M85 59l8 12M92 55l9 12" stroke="#c7a852" stroke-width="2"/></g><g class="scene-dust" fill="#cbd7a2"><circle cx="49" cy="67" r="4"/><circle cx="36" cy="58" r="3"/><circle cx="117" cy="70" r="3"/></g>',
+    '<path d="M22 38l58-27 55 27" fill="#e8d6a6" stroke="#9ab49a" stroke-width="3"/><path d="M29 39h103v13H38Z" fill="#a4ccc1" stroke="#598e7e" stroke-width="3"/><path d="M130 45v29" stroke="#598e7e" stroke-width="8" stroke-linecap="round"/><g class="scene-gutter-leaf"><path d="M73 36q19-17 27 1q-15 13-27-1" fill="#e7c778"/></g><g class="scene-gutter-water"><path d="M130 59v18m-6-9v9m12-11v12" stroke="#71c7d2" stroke-width="3" stroke-linecap="round"/></g>',
+    '<g class="scene-vase"><path d="M63 36h30l-4 14q15 27-11 29q-26-2-11-29Z" fill="#c6e5e0" stroke="#76ada2" stroke-width="2"/><path class="scene-fresh-water" d="M64 59q13-5 28 0v13q-14 12-28 0Z" fill="#82cdd6"/>'+face+'</g><g class="scene-flower"><path d="M78 39V20" stroke="#699a68" stroke-width="3"/><path d="M78 31q-18-12-17 0q12 8 17 0" fill="#a3c98a"/><g fill="#efc0bc"><circle cx="78" cy="12" r="7"/><circle cx="70" cy="18" r="7"/><circle cx="86" cy="18" r="7"/><circle cx="78" cy="24" r="7"/></g><circle cx="78" cy="18" r="5" fill="#f2d77c"/></g><g class="scene-scrub"><rect x="113" y="49" width="22" height="14" rx="4" fill="#efd780"/><circle cx="119" cy="44" r="4" fill="#d1ede8"/><circle cx="130" cy="39" r="3" fill="#d1ede8"/></g>'
+  ];
+  const scene = document.createElement('span');
+  scene.className = 'task-scene scene-' + index;
+  scene.setAttribute('aria-hidden', 'true');
+  scene.innerHTML = '<svg viewBox="0 0 160 90" xmlns="http://www.w3.org/2000/svg" focusable="false"><rect x="2" y="2" width="156" height="86" rx="20" fill="#f4fbef"/>' + scenes[index] + '<g class="scene-twinkles" fill="#e6be53"><path d="M25 14l2 6 6 2-6 2-2 6-2-6-6-2 6-2Z"/><path d="M135 12l2 4 4 2-4 2-2 4-2-4-4-2 4-2Z"/></g></svg>';
+  card.append(scene);
+  setTimeout(() => scene.remove(), 1850);
+}
+
+function animateCompletion(index, missionComplete) {
+  const card = $('task-' + index).closest('.task');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduced) {
+    playTaskScene(index, card);
+    card.classList.add('task-pop');
+    setTimeout(() => card.classList.remove('task-pop'), 800);
+    temporaryEffect(card, '+10 Points', 'floating-reward');
+    temporaryEffect(card, '✦  ✧  ✦', 'task-sparkles');
+  }
+  if (missionComplete) {
+
+    if (!reduced) {
+      $('checklist').classList.add('mission-celebration');
+      setTimeout(() => $('checklist').classList.remove('mission-celebration'), 1800);
+      temporaryEffect($('checklist'), '+30 Bonus Points', 'bonus-reward');
+      celebrate();
+    }
+  }
+}
+// Queue first-time achievements only. Startup rendering never enters this queue.
+const badgeCelebrations = [];
+let showingBadgeCelebration = false;
+function celebrateBadges(ids) {
+  badgeCelebrations.push(...ids);
+  if (!showingBadgeCelebration) showNextBadgeCelebration();
+}
+function showNextBadgeCelebration() {
+  const entry = badgeCelebrations.shift();
+  const id = typeof entry === 'string' ? entry : entry?.id;
+  const badge = badges.find(item => item.id === id);
+  if (!badge) { showingBadgeCelebration = false; return; }
+  showingBadgeCelebration = true;
+  const popup = document.createElement('div');
+  popup.className = 'badge-unlock-popup';
+  if (entry?.preview) popup.dataset.preview = 'true';
+  popup.setAttribute('role', 'status');
+  popup.setAttribute('aria-live', 'polite');
+  popup.setAttribute('aria-atomic', 'true');
+  popup.innerHTML = `<span class="badge-art badge-unlock-icon" style="--color:${badge.color}" aria-hidden="true">${badge.icon}</span><div><p>${entry?.preview ? 'Preview · Achievement Unlocked!' : 'Achievement Unlocked!'}</p><strong>${badge.name}</strong></div>`;
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const confetti = document.createElement('span');
+    confetti.className = 'badge-unlock-confetti';
+    confetti.setAttribute('aria-hidden', 'true');
+    for (let i = 0; i < 16; i++) {
+      const piece = document.createElement('i');
+      piece.style.setProperty('--x', `${(i / 15 - .5) * 260}px`);
+      piece.style.setProperty('--turn', `${(i % 2 ? 1 : -1) * 240}deg`);
+      piece.style.background = ['#edc65d', '#80c5a0', '#fff', '#add9c8'][i % 4];
+      piece.style.animationDelay = `${i % 4 * .06}s`;
+      confetti.append(piece);
+    }
+    popup.append(confetti);
+  }
+  document.body.append(popup);
+  // The notification never steals focus or blocks checklist interaction.
+  setTimeout(() => { popup.remove(); showNextBadgeCelebration(); }, 3000);
+}
+// Checkbox state is the source of truth; repeated events cannot add duplicate rewards.
+$('tasks').addEventListener('change', e => {
+  const input = e.target;
+  if (!input.matches('[data-task]')) return;
+  const index = Number(input.dataset.task);
+  if (checkWeek()) return;
+  if (!Number.isInteger(index) || index < 0 || index >= tasks.length) return;
+  const next = input.checked ? 'completed' : 'todo';
+  if (state.weeks[current].tasks[index] === next) return;
+  const before = metrics().points;
+  const displayedPoints = Number($('points').textContent.replace(/,/g, ''));
+  const displayedPercent = parseInt($('percent').textContent, 10);
+  state.weeks[current].tasks[index] = next;
+  const earned = unlock(metrics());
+  save();
+  render(earned);
+  animateCounter($('points'), displayedPoints, metrics().points);
+  animateCounter($('percent'), displayedPercent, Math.round(metrics().count / 7 * 100), '%');
+  // Keep keyboard focus on the toggled task.
+  $('task-' + index).focus({preventScroll:true});
+  const difference = metrics().points - before;
+  if (next === 'completed') {
+    toast(`Task completed · +${difference} points${earned.length ? ' · Unlocked: ' + earned.map(id => badges.find(b => b.id === id).name).join(', ') : ''}`);
+    animateCompletion(index, metrics().count === 7);
+    celebrateBadges(earned);
+  } else {
+    clearCompletionEffects(index);
+    toast(`Task undone · ${-difference} points removed, including any affected bonuses. Earned badges stay.`);
+  }
+});
+document.querySelectorAll('.close').forEach(b=>b.addEventListener('click',()=>b.closest('dialog').close()));
+document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{const r=d.getBoundingClientRect();if(e.target===d&&(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom))d.close();}));
+$('badges').addEventListener('click',e=>{const button=e.target.closest('[data-badge]');if(!button)return;const b=badges.find(b=>b.id===button.dataset.badge),earned=state.badges.includes(b.id);$('badgeDetail').innerHTML=`<span class="badge-art${b.id==='first'?' badge-art--first':''}" style="--color:${earned?b.color:'#dce1d7'}">${b.icon}</span><p class="eyebrow">${earned?'ACHIEVEMENT UNLOCKED':'YOUR NEXT LITTLE WIN'}</p><h2>${b.name}</h2><p>${b.description}</p><p class="notice">${b.requirement}</p><p>${earned?'Earned forever. Your badge stays even if you undo a task.':'Keep going — this badge is waiting for you.'}</p>`;$('badgeModal').showModal();});
+['individual','neighbourhood'].forEach(id=>$(id).addEventListener('click',()=>{mode=id;['individual','neighbourhood'].forEach(key=>$(key).setAttribute('aria-pressed',String(key===mode)));checkWeek();renderLeaderboard(metrics());}));
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkWeek();});window.addEventListener('focus',checkWeek);setInterval(checkWeek,60000);
+// Avoid silently overwriting a newer ledger from another open tab.
+window.addEventListener('storage',e=>{if(e.key===KEY)location.reload();});
+ensureWeek();unlock(metrics());render();save();
+// TEMPORARY DEMO PREVIEW: presentation only; never changes the activity ledger.
+const preview = document.createElement('details');
+preview.className = 'animation-preview';
+preview.innerHTML = `<summary>Demo animation preview</summary><p>Visual previews only. Your saved progress stays unchanged.</p><label for="taskPreview">Checklist animation</label><div><select id="taskPreview">${tasks.map((task, i) => `<option value="${i}">${task[1]}</option>`).join('')}<option value="all">All seven tasks</option><option value="weekly">Weekly celebration</option></select><button type="button" id="playTaskPreview">Preview checklist</button></div><label for="badgePreview">Badge unlock animation</label><div><select id="badgePreview">${badges.map(badge => `<option value="${badge.id}">${badge.name}</option>`).join('')}<option value="all">All six badges</option></select><button type="button" id="playBadgePreview">Preview badges</button></div><div class="preview-stage" aria-label="Animation preview stage"><div class="task"><input type="checkbox" tabindex="-1" aria-label="Preview checkbox" disabled><span class="preview-task-name"></span></div><div class="track"><div></div></div><small>Preview points: <span>0</span></small></div><p class="preview-status" role="status"></p>`;
+$('achievements').append(preview);
+let previewTimers = [], previewVersion = 0;
+function previewTask(index, version) {
+  if (version !== previewVersion) return;
+  const stage = preview.querySelector('.preview-stage');
+  const card = stage.querySelector('.task');
+  card.querySelectorAll('.task-scene,.floating-reward,.task-sparkles').forEach(node => node.remove());
+  card.classList.remove('task-pop');
+  card.querySelector('input').checked = false;
+  stage.querySelector('.track div').style.width = '0%';
+  stage.querySelector('small span').textContent = '0';
+  card.querySelector('.preview-task-name').textContent = tasks[index][1];
+  void card.offsetWidth;
+  previewTimers.push(setTimeout(() => {
+    if (version !== previewVersion) return;
+    card.querySelector('input').checked = true;
+    card.classList.add('task-pop');
+    playTaskScene(index, card);
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      temporaryEffect(card, '+10 Points', 'floating-reward');
+      temporaryEffect(card, '✦  ✧  ✦', 'task-sparkles');
+    }
+    stage.querySelector('.track div').style.width = '100%';
+    animateCounter(stage.querySelector('small span'), 0, 10);
+  }, 40));
+}
+$('playTaskPreview').addEventListener('click', () => {
+  previewTimers.forEach(clearTimeout); previewTimers = [];
+  const version = ++previewVersion, choice = $('taskPreview').value;
+  preview.querySelector('.preview-status').textContent = 'Preview only — no points or saved progress changed.';
+  if (choice === 'weekly') {
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      temporaryEffect(preview, '+30 Bonus Points · Preview', 'bonus-reward');
+      preview.classList.remove('mission-celebration'); void preview.offsetWidth;
+      preview.classList.add('mission-celebration'); celebrate();
+    }
+    return;
+  }
+  (choice === 'all' ? tasks.map((_, i) => i) : [Number(choice)]).forEach((index, i) => {
+    previewTimers.push(setTimeout(() => previewTask(index, version), i * 2200));
+  });
+});
+$('playBadgePreview').addEventListener('click', () => {
+  const choice = $('badgePreview').value;
+  preview.querySelector('.preview-status').textContent = 'Preview only — no badges unlocked or saved progress changed.';
+  celebrateBadges((choice === 'all' ? badges.map(b => b.id) : [choice]).map(id => ({id, preview: true})));
+});
+// END TEMPORARY DEMO PREVIEW
+})();
+
+</script></body></html>
+

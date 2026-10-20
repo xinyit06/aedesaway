@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aedes Away - Enhanced Mosquito Report</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+<style>
+  html, body {
+    margin: 0; padding:0; height: 100%; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #d6ebd1 20%, #a9cdaa 80%);
+    color: #204020;
+  }
+  body { display: flex; flex-direction: column; height: 100vh; }
+  header {
+    background:#1f4f1f; color:#fff; padding: 12px 24px; font-weight: 700; font-size: 2.4em; display: flex; align-items:center;
+  }
+  header img { height: 48px; margin-right: 12px; }
+  #app {
+    display: flex; flex: 1; gap: 20px; padding: 20px 40px; background: #e7f1e5;
+  }
+  #map {
+    flex: 2; border-radius: 12px; box-shadow: 0 0 12px rgba(0,0,0,0.15); height: 100%; position: relative;
+  }
+  #sidebar {
+    flex: 1; background: #f7fdf4; padding: 24px; border-radius: 12px; box-shadow: inset 0 0 12px #d6e8d1; overflow-y: auto;
+    display: flex; flex-direction: column;
+  }
+  h2 { margin-top: 0; font-weight: 700; color: #336633; }
+  form label { display:block; margin-top: 10px; font-weight: 600;}
+  input[type=text], input[type=file], select {
+    width: 100%; padding: 8px 10px; border: 1px solid #a1c081; border-radius: 6px; box-sizing: border-box;
+    transition: border-color 0.3s ease;
+  }
+  input[type=text]:focus, select:focus, input[type=file]:focus {
+    outline: none; border-color: #4a7c4a;
+  }
+  input[type=checkbox] { margin-left: 12px; }
+  button {
+    margin-top: 20px; padding: 12px 18px; background: #4a7c4a; border: none; border-radius: 10px; cursor: pointer; color: white; font-weight: 600;
+    transition: background-color 0.25s ease;
+  }
+  button:hover { background: #2f532f; }
+  #progressSummary {
+    font-weight: 700; margin: 20px 0 10px; color: #4c7639;
+  }
+  #statusList {
+    background: #dcedc8; border-radius: 12px; padding: 15px; max-height: 260px; overflow-y: auto; margin-bottom: 20px;
+  }
+  .report-item {
+    border-radius: 8px; margin-bottom: 8px; padding: 8px 12px; font-weight: 600; cursor: pointer;
+    color: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: background-color 0.7s ease;
+  }
+  .status-received { background-color: #d32f2f; }
+  .status-reviewed { background-color: #fbc02d; color:#5a4200; }
+  .status-resolved { background-color: #388e3c; position: relative; }
+  .status-resolved::after {
+    content: "✔";
+    position: absolute;
+    right: 14px;
+    font-weight: 900;
+    font-size: 1.3em;
+  }
+  #searchSection {
+    margin-bottom: 20px;
+  }
+  #searchSection input[type=text] {
+    width: calc(100% - 90px);
+    display: inline-block;
+    vertical-align: middle;
+  }
+  #searchSection button {
+    width: 80px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+  }
+  #photoPreview {
+    margin-top: 10px;
+    max-width: 100%;
+    max-height: 140px;
+    border-radius: 8px;
+    border: 1px solid #a1c081;
+  }
+  #map .mosquito-fly {
+    position: absolute; width: 40px; height: 40px; pointer-events: none;
+    background: url('https://cdn-icons-png.flaticon.com/512/190/190745.png') no-repeat center/contain;
+    z-index: 1100; will-change: transform;
+  }
+  .heat-toggle {
+    background: #fff; padding: 8px 14px; border-radius: 8px; cursor: pointer; user-select: none;
+    font-weight: 700; font-size: 14px; color: #204020; box-shadow: 0 1px 6px rgba(0,0,0,0.35);
+    border: 2px solid #4a7c4a;
+  }
+  .heat-toggle:hover { background: #eef6ea; }
+  .heat-toggle.active { background: #4a7c4a; color: #fff; }
+  .mosquito-red-icon {
+    background-image: url('https://cdn-icons-png.flaticon.com/512/190/190713.png') !important;
+    width: 44px; height: 44px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <img src="https://cdn-icons-png.flaticon.com/512/190/190745.png" alt="Black Aedes Mosquito" style="height:48px; margin-right:12px;" />
+  Aedes Away Heat Map
+</header>
+
+<div id="app">
+  <div id="map"></div>
+  <div id="sidebar">
+    <div id="searchSection">
+      <label for="searchLocation" style="font-weight:700;">Search Location</label><br/>
+      <input type="text" id="searchLocation" placeholder="Enter state or district" />
+      <button type="button" id="btnSearch">Search</button>
+    </div>
+
+    <h2>Report Mosquito Breeding Site</h2>
+    <form id="reportForm">
+      <label>Description *</label>
+      <input type="text" id="desc" placeholder="Describe the breeding site" required />
+      
+      <label>Upload Photo *</label>
+      <input type="file" id="photo" accept="image/*" required />
+      <img id="photoPreview" alt="Photo preview" style="display:none;" />
+
+      <label>
+        Use Current Location
+        <input type="checkbox" id="useLocation" checked />
+      </label>
+      <div id="locationSelect" style="margin-top: 12px; display: none;">
+        <label for="stateSelect">Select State *</label>
+        <select id="stateSelect">
+          <option value="">Choose State</option>
+          <option value="selangor">Selangor</option>
+          <option value="johor">Johor</option>
+          <option value="penang">Penang</option>
+        </select>
+        <label for="districtSelect">Select District / City *</label>
+        <select id="districtSelect" disabled>
+          <option value="">Select state first</option>
+        </select>
+      </div>
+      <div id="addressSection" style="margin-top: 12px; display: none;">
+        <label for="address">Address *</label>
+        <input type="text" id="address" placeholder="Enter specific address" />
+      </div>
+      <button type="submit">Submit Report</button>
+    </form>
+
+    <div id="progressSummary"></div>
+    <div id="statusList"></div>
+
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+<script>
+  const map = L.map('map').setView([4.2105, 101.9758], 7);
+  L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', { maxZoom: 18 }).addTo(map);
+
+  // ---------- HEAT LAYER ----------
+  // blue (low) -> cyan -> green -> yellow -> red (high)
+  const heatLayer = L.heatLayer([], {
+    radius: 40,
+    blur: 30,
+    max: 3.5,          // total weight needed to reach full red
+    maxZoom: 7,        // keeps intensity the same at every zoom level
+    minOpacity: 0.35,  // gives the soft blue glow around each hotspot
+    gradient: { 0.2: 'blue', 0.4: 'cyan', 0.6: 'lime', 0.8: 'yellow', 1.0: 'red' }
+  }).addTo(map);
+
+  // Rebuild the heat points from active (unresolved) reports
+  function updateHeat(){
+    const pts = reports
+      .filter(r => r.status !== "Resolved")
+      .map(r => [r.lat, r.lng, r.threat ? 1.0 : 0.4]); // threat sites are "hotter"
+    heatLayer.setLatLngs(pts);
+  }
+
+  // Make the blobs grow as you zoom in so they stay smooth and visible
+  function scaleHeatToZoom(){
+    const r = Math.min(90, 12 + map.getZoom() * 4);
+    heatLayer.setOptions({ radius: r, blur: r * 0.75 });
+  }
+  map.on('zoomend', scaleHeatToZoom);
+  scaleHeatToZoom();
+
+  // ---------- "HEAT MAP ONLY" TOGGLE ----------
+  // Hides every case marker (and open popups) so only the heat shows
+  let heatOnly = false;
+  const HeatToggle = L.Control.extend({
+    options: { position: 'topright' },
+    onAdd: function(){
+      const btn = L.DomUtil.create('div', 'heat-toggle');
+      btn.textContent = '🔥 Heat map only';
+      L.DomEvent.disableClickPropagation(btn);
+      L.DomEvent.on(btn, 'click', () => {
+        heatOnly = !heatOnly;
+        map.getPane('markerPane').style.display = heatOnly ? 'none' : '';
+        map.getPane('shadowPane').style.display = heatOnly ? 'none' : '';
+        if(heatOnly) map.closePopup();
+        btn.classList.toggle('active', heatOnly);
+        btn.textContent = heatOnly ? '📍 Show cases' : '🔥 Heat map only';
+      });
+      return btn;
+    }
+  });
+  map.addControl(new HeatToggle());
+
+
+  const mosquitoIcon = L.icon({
+    iconUrl: 'https://cdn-icons-png.flaticon.com/512/190/190745.png',
+    iconSize: [40, 40],
+    iconAnchor: [20, 20],
+    popupAnchor: [0, -20]
+  });
+
+  const mosquitoRedIcon = L.icon({
+    iconUrl: 'https://cdn-icons-png.flaticon.com/512/190/190713.png',
+    iconSize: [44, 44],
+    iconAnchor: [22, 22],
+    popupAnchor: [0, -22]
+  });
+
+  const stateDistricts = {
+    johor: {
+      "Batu Pahat": [1.8557, 102.9319],
+      "Johor Bahru": [1.4927, 103.7414],
+      "Kulai": [1.673, 103.664],
+      "Kota Tinggi": [1.725, 103.967],
+      "Mersing": [2.4349, 103.8405],
+      "Muar": [2.0456, 102.5703],
+      "Pontian": [1.4855, 103.3872],
+      "Segamat": [2.5477, 102.8256],
+      "Tangkak": [2.3316, 102.5622]
+    },
+    kedah: {
+      "Baling": [5.7903, 100.9824],
+      "Bandar Baharu": [5.5641, 100.4904],
+      "Kota Setar": [6.1217, 100.3673],
+      "Kubang Pasu": [6.3201, 100.3923],
+      "Kulim": [5.5333, 100.4704],
+      "Langkawi": [6.3334, 99.7838],
+      "Padang Terap": [5.5357, 100.7355],
+      "Pendang": [6.1017, 100.5027],
+      "Pokok Sena": [6.3579, 100.4219],
+      "Sik": [5.8860, 100.7908],
+      "Yan": [6.2734, 100.4896]
+    },
+    kelantan: {
+      "Bachok": [6.1563, 102.3119],
+      "Gua Musang": [4.8082, 101.9361],
+      "Jeli": [5.5198, 101.947],
+      "Kota Bharu": [6.1372, 102.2438],
+      "Machang": [5.7690, 102.1502],
+      "Tanah Merah": [5.8304, 102.1883],
+      "Tumpat": [6.1896, 102.1663],
+      "Pasir Mas": [6.1339, 102.0239],
+      "Pasir Puteh": [5.8608, 102.4398]
+    },
+    melaka: {
+      "Alor Gajah": [2.2895, 102.2841],
+      "Jasin": [2.3069, 102.431],
+      "Melaka Tengah": [2.1995, 102.2491]
+    },
+    negeriSembilan: {
+      "Jelebu": [2.9391, 102.234],
+      "Jempol": [2.7504, 102.5763],
+      "Kuala Pilah": [2.8343, 102.2461],
+      "Port Dickson": [2.5214, 101.7969],
+      "Rembau": [2.6862, 102.2788],
+      "Seremban": [2.7265, 101.9461],
+      "Tampin": [2.4886, 102.2455]
+    },
+    pahang: {
+      "Bentong": [3.4802, 101.8923],
+      "Bera": [3.4608, 102.1135],
+      "Cameron Highlands": [4.4688, 101.3729],
+      "Jerantut": [3.9728, 102.3647],
+      "Kuantan": [3.8079, 103.3266],
+      "Lipis": [4.2460, 102.0049],
+      "Maran": [3.7182, 102.6947],
+      "Raub": [3.7876, 101.8478],
+      "Temerloh": [3.427, 102.3435],
+      "Teriang": [3.7975, 102.2552]
+    },
+    penang: {
+      "Bagan": [5.4498, 100.2849],
+      "Bukit Mertajam": [5.3732, 100.45],
+      "George Town": [5.4141, 100.3288],
+      "Nibong Tebal": [5.2039, 100.445],
+      "Seberang Perai Tengah": [5.3324, 100.456],
+      "Seberang Perai Selatan": [5.0984, 100.438],
+      "Seberang Perai Utara": [5.4057, 100.4443]
+    },
+    perak: {
+      "Bagan Datuk": [4.1345, 100.9817],
+      "Batang Padang": [4.0776, 100.793],
+      "Hilir Perak": [4.6775, 100.9672],
+      "Kampar": [4.3418, 101.1818],
+      "Kerian": [5.0756, 100.4989],
+      "Kinta": [4.5779, 101.0906],
+      "Kuala Kangsar": [4.7611, 100.9456],
+      "Larut Matang Selama": [4.927, 100.8511],
+      "Manjung": [4.2301, 100.6472],
+      "Perak Tengah": [4.4861, 100.9922],
+      "Selama": [5.1916, 100.9254]
+    },
+    perlis: {
+      "Arau": [6.4392, 100.1963],
+      "Kangar": [6.4417, 100.2003]
+    },
+    sabah: {
+      "Beaufort": [5.3144, 115.7025],
+      "Kota Kinabalu": [5.9804, 116.0735],
+      "Kota Belud": [6.2784, 116.2079],
+      "Kudat": [6.8840, 116.8383],
+      "Papar": [5.8607, 115.9089],
+      "Penampang": [5.8949, 116.0038],
+      "Putatan": [5.9373, 116.0021],
+      "Sandakan": [5.8404, 118.1177],
+      "Tawau": [4.2504, 117.8867],
+      "Tenom": [5.0797, 116.0988],
+      "Kunak": [4.5465, 118.1125],
+      "Nabawan": [5.1539, 115.7801]
+    },
+    sarawak: {
+      "Bintulu": [3.1706, 113.0362],
+      "Kapit": [2.0174, 112.9394],
+      "Kuching": [1.5533, 110.3593],
+      "Lawas": [4.8479, 115.4609],
+      "Limbang": [4.7420, 115.0030],
+      "Miri": [4.3991, 113.9914],
+      "Sibu": [2.2930, 111.8301],
+      "Sarikei": [2.0897, 111.5273],
+      "Sri Aman": [1.2281, 111.4670],
+      "Simanggang": [1.2513, 111.4592]
+    },
+    selangor: {
+      "Gombak": [3.2944, 101.7153],
+      "Hulu Langat": [3.0667, 101.8167],
+      "Hulu Selangor": [3.4559, 101.6131],
+      "Klang": [3.0333, 101.44],
+      "Kuala Langat": [2.8708, 101.4468],
+      "Kuala Selangor": [3.3091, 101.2130],
+      "Petaling": [3.0728, 101.6067],
+      "Sabak Bernam": [3.7485, 100.9561],
+      "Sepang": [2.7152, 101.7265]
+    },
+    terengganu: {
+      "Besut": [5.7880, 102.5315],
+      "Dungun": [4.7606, 103.4384],
+      "Hulu Terengganu": [4.8770, 102.8093],
+      "Kemaman": [4.2140, 103.4362],
+      "Kuala Terengganu": [5.3171, 103.1244],
+      "Setiu": [5.2386, 102.8010]
+    },
+    putrajaya: {
+      "Putrajaya": [2.9203, 101.6553]
+    },
+    kualaLumpur: {
+      "Kuala Lumpur": [3.1390, 101.6869]
+    }
+  };
+
+  // DOM elements
+  const stateSelect = document.getElementById('stateSelect');
+  const districtSelect = document.getElementById('districtSelect');
+  const locationSelect = document.getElementById('locationSelect');
+  const useLocation = document.getElementById('useLocation');
+  const descInput = document.getElementById('desc');
+  const photoInput = document.getElementById('photo');
+  const addressInput = document.getElementById('address');
+  const addressSection = document.getElementById('addressSection');
+  const photoPreview = document.getElementById('photoPreview');
+  const reportForm = document.getElementById('reportForm');
+  const progressSummary = document.getElementById('progressSummary');
+  const statusList = document.getElementById('statusList');
+  const searchInput = document.getElementById('searchLocation');
+  const btnSearch = document.getElementById('btnSearch');
+
+  let reports = [];
+  let userPoints = 0;
+  let markersMap = new Map();
+
+  // Initialize mock reports for demo
+  function initMockReports(){
+    reports = [];
+    let idCtr = 1;
+    for(let state in stateDistricts){
+      for(let district in stateDistricts[state]){
+        for(let i = 0; i < 5; i++){
+          let id = idCtr++;
+          let coords = stateDistricts[state][district];
+          reports.push({
+            id,
+            lat: coords[0] + (Math.random()-0.5)/100,
+            lng: coords[1] + (Math.random()-0.5)/100,
+            description: `Simulated breeding site #${id}`,
+            address: `${district}, ${state.charAt(0).toUpperCase()+state.slice(1)}`,
+            status: "Received",
+            timestamp: Date.now(),
+            photoUrl: '',
+            threat: Math.random() < 0.2
+          });
+        }
+      }
+    }
+  }
+
+  // Add or update mosquito markers on map
+  function addMosquitoMarker(report){
+    if(report.status === "Resolved"){
+      if(markersMap.has(report.id)){
+        map.removeLayer(markersMap.get(report.id));
+        markersMap.delete(report.id);
+      }
+      return;
+    }
+    let icon = report.threat ? mosquitoRedIcon : mosquitoIcon;
+    if(report.status === "Reviewed"){
+      icon = mosquitoIcon;
+    }
+
+    if(markersMap.has(report.id)){
+      markersMap.get(report.id).setLatLng([report.lat, report.lng]);
+      markersMap.get(report.id).setIcon(icon);
+      markersMap.get(report.id).setPopupContent(`
+        <b>Description:</b> ${report.description}<br/>
+        <b>Address:</b> ${report.address}<br/>
+        <b>Status:</b> ${report.status}<br/>
+        <b>Submitted at:</b> ${new Date(report.timestamp).toLocaleString()}
+      `);
+    } else {
+      const marker = L.marker([report.lat, report.lng], {icon});
+      marker.bindPopup(`
+        <b>Description:</b> ${report.description}<br/>
+        <b>Address:</b> ${report.address}<br/>
+        <b>Status:</b> ${report.status}<br/>
+        <b>Submitted at:</b> ${new Date(report.timestamp).toLocaleString()}
+      `);
+      marker.addTo(map);
+      markersMap.set(report.id, marker);
+    }
+  }
+
+  function refreshMarkers(){
+    reports.forEach(addMosquitoMarker);
+    updateHeat();
+  }
+
+  // Update report status and user points display
+  function updateProgress(){
+    progressSummary.textContent = `Reports: ${reports.length} | Received: ${reports.filter(r => r.status === "Received").length} | Reviewed: ${reports.filter(r => r.status === "Reviewed").length} | Resolved: ${reports.filter(r => r.status === "Resolved").length} | Points: ${userPoints}`;
+
+    statusList.innerHTML = '';
+    reports.forEach(r => {
+      const div = document.createElement('div');
+      div.classList.add('report-item');
+      const statusClass = {
+        'Received': 'status-received',
+        'Reviewed': 'status-reviewed',
+        'Resolved': 'status-resolved'
+      }[r.status];
+      div.classList.add(statusClass);
+      div.textContent = `Report #${r.id} - ${r.address} - ${r.status}`;
+      div.onclick = () => markersMap.get(r.id)?.openPopup();
+      statusList.appendChild(div);
+    });
+  }
+
+  // Initialize demo data and UI
+  initMockReports();
+  refreshMarkers();
+  updateProgress();
+
+  // Simulate state changes for reports dynamically
+  setTimeout(() => {
+    let receivedReports = reports.filter(r => r.status === "Received");
+    let selected = [];
+    while(selected.length < 10 && receivedReports.length > 0){
+      const idx = Math.floor(Math.random() * receivedReports.length);
+      selected.push(receivedReports[idx]);
+      receivedReports.splice(idx, 1);
+    }
+    selected.forEach(r => r.status = "Reviewed");
+    refreshMarkers();
+    updateProgress();
+
+    setTimeout(() => {
+      selected.forEach(r => r.status = "Resolved");
+      refreshMarkers();
+      updateProgress();
+
+      setTimeout(() => {
+        reports = reports.filter(r => r.status !== "Resolved");
+        refreshMarkers();
+        updateProgress();
+      }, 5000);
+    }, 60000);
+  }, 5000);
+
+  // Toggle between using current location or manual selection
+  useLocation.addEventListener('change', () => {
+    if(useLocation.checked){
+      locationSelect.style.display = 'none';
+      addressSection.style.display = 'none';
+      addressInput.required = false;
+      stateSelect.required = false;
+      districtSelect.required = false;
+      addressInput.value = "";
+      districtSelect.disabled = true;
+      districtSelect.innerHTML = '<option value="">Select state first</option>';
+      stateSelect.value = "";
+    } else {
+      locationSelect.style.display = 'block';
+      addressSection.style.display = 'block';
+      addressInput.required = true;
+      stateSelect.required = true;
+      districtSelect.required = true;
+      districtSelect.disabled = !stateSelect.value;
+    }
+  });
+
+  // Populate district dropdown based on state selected
+  stateSelect.addEventListener('change', () => {
+    const state = stateSelect.value;
+    districtSelect.innerHTML = '';
+    if(state && stateDistricts[state]){
+      for(let d in stateDistricts[state]){
+        const opt = document.createElement('option');
+        opt.value = d;
+        opt.textContent = d;
+        districtSelect.appendChild(opt);
+      }
+      districtSelect.disabled = false;
+    } else {
+      districtSelect.innerHTML = '<option>Select state first</option>';
+      districtSelect.disabled = true;
+    }
+  });
+
+  // Preview photo upload
+  photoInput.addEventListener('change', () => {
+    if(photoInput.files && photoInput.files[0]){
+      const file = photoInput.files[0];
+      const reader = new FileReader();
+      reader.onload = e => {
+        photoPreview.src = e.target.result;
+        photoPreview.style.display = "block";
+      };
+      reader.readAsDataURL(file);
+    } else {
+      photoPreview.src = "";
+      photoPreview.style.display = "none";
+    }
+  });
+
+  // Search location by state or district
+  btnSearch.addEventListener('click', () => {
+    const query = searchInput.value.trim().toLowerCase();
+    if(!query){
+      alert("Please enter a location to search.");
+      return;
+    }
+    let found = false;
+    for (let state in stateDistricts) {
+      if(state.toLowerCase().includes(query)){
+        const firstDistrict = Object.values(stateDistricts[state])[0];
+        map.setView(firstDistrict, 10);
+        found = true;
+        break;
+      }
+    }
+    if(found) return;
+
+    for (let state in stateDistricts) {
+      for(let district in stateDistricts[state]){
+        if(district.toLowerCase().includes(query)){
+          const coords = stateDistricts[state][district];
+          map.setView(coords, 12);
+          found = true;
+          break;
+        }
+      }
+      if(found) break;
+    }
+    if(!found){
+      alert("Location not found. Please try another keyword.");
+    }
+  });
+
+  // Submit new mosquito breeding site report
+  reportForm.addEventListener('submit', e => {
+    e.preventDefault();
+    if(!descInput.value.trim()){
+      alert("Please enter a description");
+      return;
+    }
+    if(!useLocation.checked && !addressInput.value.trim()){
+      alert("Please enter an address");
+      return;
+    }
+    if(photoInput.files.length === 0){
+      alert("Please upload a photo");
+      return;
+    }
+
+    function onReport(lat, lng){
+      const id = Date.now() + Math.floor(Math.random()*1000);
+      const photoUrl = URL.createObjectURL(photoInput.files[0]);
+      const description = descInput.value.trim();
+      const address = useLocation.checked
+        ? `Current location (${lat.toFixed(5)}, ${lng.toFixed(5)})`
+        : addressInput.value.trim();
+
+      const threat = Math.random() < 0.3;
+
+      const report = {
+        id, lat, lng,
+        description,
+        address,
+        status: "Received",
+        timestamp: Date.now(),
+        photoUrl,
+        threat
+      };
+      reports.push(report);
+      addMosquitoMarker(report);
+      refreshMarkers();
+      updateProgress();
+      mosquitoFlyTo([lat,lng]);
+
+      setTimeout(() => {
+        report.status = "Reviewed";
+        refreshMarkers();
+        updateProgress();
+      }, 8000);
+
+      setTimeout(() => {
+        report.status = "Resolved";
+        userPoints += 10;
+        refreshMarkers();
+        updateProgress();
+        alert(`Report #${id} resolved! You earned 10 points.`);
+      }, 15000);
+
+      descInput.value = "";
+      addressInput.value = "";
+      photoInput.value = "";
+      photoPreview.style.display = "none";
+    }
+
+    if(useLocation.checked && navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(pos=>{
+        onReport(pos.coords.latitude, pos.coords.longitude);
+      }, () => alert("Failed to get your current location"));
+      return;
+    }
+
+    if(!stateSelect.value || !districtSelect.value){
+      alert("Please select state and district");
+      return;
+    }
+    const coords = stateDistricts[stateSelect.value][districtSelect.value];
+    onReport(coords[0], coords[1]);
+  });
+
+  // Animation of mosquito flying to new report location
+  function mosquitoFlyTo(latlng){
+    const point = map.latLngToContainerPoint(latlng);
+    const flyDiv = document.createElement('div');
+    flyDiv.className = 'mosquito-fly';
+    document.getElementById('map').appendChild(flyDiv);
+
+    flyDiv.style.transform = `translate(${-50}px,${-50}px)`;
+    setTimeout(() => {
+      flyDiv.style.transition = "transform 1.5s ease-out, opacity 0.3s ease 1.5s";
+      flyDiv.style.transform = `translate(${point.x - 20}px,${point.y - 20}px)`;
+      flyDiv.style.opacity = "1";
+    }, 50);
+    setTimeout(() => flyDiv.style.opacity = "0", 1600);
+    setTimeout(() => flyDiv.remove(), 1900);
+  }
+</script>
+
+</body>
+</html>
